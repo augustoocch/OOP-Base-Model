@@ -22,19 +22,24 @@
             <scope>test</scope>
         </dependency>
 
-        <!--jdatepicker-->
         <dependency>
             <groupId>org.jdatepicker</groupId>
             <artifactId>jdatepicker</artifactId>
             <version>1.3.4</version>
         </dependency>
 
-        <!--lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.32</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.8.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

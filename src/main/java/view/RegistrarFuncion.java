@@ -30,9 +30,9 @@ public class RegistrarFuncion extends JFrame {
     private JComboBox<String> horarios;
     private JComboBox<String> salas;
     private JPanel contentPane;
-    UtilDateModel model;
-    JDatePanelImpl datePanel;
-    JDatePickerImpl datePicker;
+    private UtilDateModel model;
+    private JDatePanelImpl datePanel;
+    private JDatePickerImpl datePicker;
     private PeliculasController peliculasController = PeliculasController.obtenerInstancia();
     private FuncionController funcionController = FuncionController.obtenerInstancia();
     private SucursalController sucursalController = SucursalController.obtenerInstancia();
