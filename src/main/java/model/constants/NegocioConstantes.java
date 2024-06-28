@@ -24,6 +24,8 @@ public class NegocioConstantes {
     public static Sucursal sucursal1 = new Sucursal(1, "Cine 1", "Direccion 1", getSalasCine1());
     public static Sucursal sucursal2 = new Sucursal(2, "Cine 2", "Direccion 2", getSalasCine2());
 
+    public static float PRECIO_ENTRADA = 200.0f;
+
     public static List<String> actoresArgentinos = List.of("Ricardo Darin", "Guillermo Francella",
             "Luis Brandoni", "Julieta Diaz", "Natalia Oreiro", "Gastón Pauls", "China Zorrilla", "Norma Aleandro");
 

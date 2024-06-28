@@ -18,6 +18,7 @@ public class Funcion {
     private Date fecha;
     private List<Entrada> entradas;
     private Sala sala;
+    private int asientosDisponibles;
 
     public Funcion() {}
 

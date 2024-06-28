@@ -1,18 +1,26 @@
 package controller;
 
 import model.business.cine.Funcion;
+import model.business.pelicula.Entrada;
 import model.constants.TipoGenero;
 import model.dto.FuncionDTO;
 import model.exception.CinemaException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static model.constants.NegocioConstantes.PRECIO_ENTRADA;
+import static model.exception.ErrorCode.FUNCIONES_NO_ENCONTRADAS;
 import static model.exception.ErrorCode.FUNCION_YA_EXISTENTE;
+import static model.mapper.FuncionMapper.toDTOFuncion;
 
 public class FuncionController {
+    private AtomicInteger id;
     private List<Funcion> funciones;
     public static FuncionController instancia;
 
     private FuncionController() {
         funciones = new ArrayList<Funcion>();
+        id = new AtomicInteger(0);
     }
 
     public static FuncionController obtenerInstancia() {
@@ -26,14 +34,26 @@ public class FuncionController {
         // TODO implement here
     }
 
-    public int obtenerAsientosDisponiblePorFuncion(int funcionID) {
-        int asientos = -1;
-        return asientos;
+    public int obtenerAsientosDisponiblePorFuncion(int funcionID) throws CinemaException {
+        for(Funcion funcion:funciones){
+            if(funcion.getFuncionID() == funcionID){
+                return funcion.getCantidadAsientosDisponibles();
+            }
+        }
+        throw new CinemaException(FUNCIONES_NO_ENCONTRADAS.getMessage(), FUNCIONES_NO_ENCONTRADAS.getCode());
     }
 
-    public List<FuncionDTO> getListaFunciones(Date fchFuncion) {
-        // TODO implement here
-        return null;
+    public List<FuncionDTO> getListaFuncionesPorFecha(Date fchFuncion) {
+       List<Funcion> funcionList = funciones.stream()
+                .filter(f -> f.getFecha().equals(fchFuncion))
+                .toList();
+
+         List<FuncionDTO> funcionDTOList = new ArrayList<>();
+        for (Funcion funcion : funcionList) {
+            FuncionDTO funcionDTO = toDTOFuncion(funcion);
+            funcionDTOList.add(funcionDTO);
+        }
+        return funcionDTOList;
     }
 
     public int peliculaMasVista() {
@@ -47,25 +67,21 @@ public class FuncionController {
     }
 
     public void registrarFuncionPorGenero(FuncionDTO funcionDTO) throws CinemaException {
-        int id = generarRandomId();
-        while (buscarFuncionPorId(id) != null) {
-            id = generarRandomId();
-        }
         if (validarFuncionExiste(funcionDTO)) {
             throw new CinemaException(FUNCION_YA_EXISTENTE.getMessage(), FUNCION_YA_EXISTENTE.getCode());
         }
-
+        List<Entrada> entradas = new ArrayList<>();
         Funcion funcion = new Funcion(
                 funcionDTO.getPelicula(),
-                id, funcionDTO.getHorario(),
-                funcionDTO.getFecha(),
-                new ArrayList<>(),
-                funcionDTO.getSala()
+                id.getAndIncrement(), funcionDTO.getHorario(),
+                funcionDTO.getFecha(), entradas,
+                funcionDTO.getSala(),
+                funcionDTO.getSala().getAsientos()
         );
         funciones.add(funcion);
     }
 
-    public List<Funcion> buscarPeliculaPorFuncion(int peliculaID) {
+    public List<Funcion> buscarPeliculaPorIdPelicula(int peliculaID) {
         List<Funcion> funcionesDeLaPelicula = new ArrayList<>();
         for (Funcion funcion : funciones) {
             if (funcion.getPeliculaID() == peliculaID) {
@@ -75,7 +91,7 @@ public class FuncionController {
         return funcionesDeLaPelicula;
     }
 
-    public List<Funcion> buscarPeliculaPorGenerosFuncion(TipoGenero genero) {
+    public List<Funcion> buscarFuncionPorGeneroPelicula(TipoGenero genero) {
         List<Funcion> funcionesDeLaPelicula = new ArrayList<>();
         for (Funcion funcion : funciones) {
             if (funcion.getPelicula().getGeneroID() == genero) {
@@ -85,6 +101,17 @@ public class FuncionController {
         return funciones;
     }
 
+    public Funcion buscarFuncionPorFechaYPelicula(Date fecha, String peliculaName) throws CinemaException {
+        Funcion funcionEncontrada = new Funcion();
+        for (Funcion funcion : funciones) {
+            if (funcion.getFecha().equals(fecha) && funcion.getPelicula().getNombrePelicula().equals(peliculaName)) {
+                funcionEncontrada = funcion;
+                return funcionEncontrada;
+            }
+        }
+        throw new CinemaException(FUNCIONES_NO_ENCONTRADAS.getMessage(), FUNCIONES_NO_ENCONTRADAS.getCode());
+    }
+
     private boolean validarFuncionExiste(FuncionDTO funcionDTO) {
         return funciones.stream()
                 .anyMatch(f -> f.getFecha().equals(funcionDTO.getFecha())
@@ -92,17 +119,4 @@ public class FuncionController {
                         && f.getSala().equals(funcionDTO.getSala()));
     }
 
-    private int generarRandomId() {
-        Random random = new Random();
-        return random.nextInt(1000);
-    }
-
-    private Funcion buscarFuncionPorId(int id) {
-        for (Funcion funcion : funciones) {
-            if (funcion.getFuncionID() == id) {
-                return funcion;
-            }
-        }
-        return null;
-    }
 }

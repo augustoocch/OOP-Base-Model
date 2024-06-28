@@ -13,4 +13,13 @@ public class FuncionMapper {
         funcion.setHorario(funcionDTO.getHorario());
         return funcion;
     }
+
+    public static FuncionDTO toDTOFuncion(Funcion funcion) {
+        FuncionDTO funcionDTO = new FuncionDTO();
+        funcionDTO.setFecha(funcion.getFecha());
+        funcionDTO.setPelicula(funcion.getPelicula());
+        funcionDTO.setSala(funcion.getSala());
+        funcionDTO.setHorario(funcion.getHorario());
+        return funcionDTO;
+    }
 }

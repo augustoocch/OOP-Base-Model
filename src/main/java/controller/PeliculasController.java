@@ -8,6 +8,7 @@ import model.dto.PeliculaDTO;
 import model.exception.CinemaException;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static model.exception.ErrorCode.PELICULA_YA_EXISTENTE;
@@ -16,12 +17,14 @@ import static model.mapper.PeliculaMapper.toPeliculaModel;
 @Getter
 @Setter
 public class PeliculasController {
-	
+
+    private AtomicInteger id;
 	private List<Pelicula> peliculas;
     public static PeliculasController instancia;
 	
     public PeliculasController() {
     	peliculas= new ArrayList<Pelicula>();
+        id = new AtomicInteger(0);
     }
 
     public static PeliculasController obtenerInstancia() {
@@ -54,6 +57,7 @@ public class PeliculasController {
             throw  new CinemaException(PELICULA_YA_EXISTENTE.getMessage(), PELICULA_YA_EXISTENTE.getCode());
         }
         Pelicula nuevaPelicula = toPeliculaModel(peliculaDTO);
+        nuevaPelicula.setPeliculaID(id.incrementAndGet());
         peliculas.add(nuevaPelicula);
     }
 

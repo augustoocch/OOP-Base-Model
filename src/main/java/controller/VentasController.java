@@ -6,12 +6,14 @@ import model.business.negocio.Venta;
 import model.business.cine.Funcion;
 import model.constants.TipoGenero;
 import model.constants.TipoTarjeta;
-import model.dto.VentaDto;
+import model.dto.VentaDTO;
 import model.exception.CinemaException;
 
 import java.util.*;
 
 import static model.exception.ErrorCode.FUNCIONES_NO_ENCONTRADAS;
+import static model.exception.ErrorCode.NO_HAY_ASIENTOS;
+import static model.mapper.VentaMapper.toVentaModel;
 
 @Getter
 @Setter
@@ -26,7 +28,7 @@ public class VentasController {
         ventas = new ArrayList<Venta>();
     }
 
-    public static VentasController getInstancia() {
+    public static VentasController obtenerInstancia() {
         if(instancia == null){
             instancia = new VentasController();
         }
@@ -44,7 +46,7 @@ public class VentasController {
      * @return
      */
     public float recaudacionPorPelicula(int peliculaID) {
-        List<Funcion> funciones = funcionController.buscarPeliculaPorFuncion(peliculaID);
+        List<Funcion> funciones = funcionController.buscarPeliculaPorIdPelicula(peliculaID);
         if(funciones.isEmpty()){
             return 0;
         }
@@ -67,6 +69,42 @@ public class VentasController {
         // TODO implement here
     }
 
+    public List<VentaDTO> funcionesVendidasPorGenero(TipoGenero genero) throws CinemaException {
+        List<VentaDTO> ventaDtos = new ArrayList<>();
+        List<Funcion> funciones = funcionController.buscarFuncionPorGeneroPelicula(genero);
+        if(funciones.isEmpty()){
+            throw new CinemaException(FUNCIONES_NO_ENCONTRADAS.getMessage(), FUNCIONES_NO_ENCONTRADAS.getCode());
+        }
+        for (Funcion funcion:funciones) {
+            Venta venta = buscarVentaPorFuncion(funcion);
+            if(!Objects.isNull(venta)){
+                ventaDtos.add(modelVentaToDto(venta));
+            }
+        }
+        return ventaDtos;
+    }
+
+    public void registrarVenta(VentaDTO venta) throws CinemaException {
+        if(Objects.isNull(venta)){
+            return;
+        }
+        venta.getFuncionDTO().getFecha();
+        Funcion funcion = funcionController.buscarFuncionPorFechaYPelicula(
+                venta.getFuncionDTO().getFecha(),
+                venta.getFuncionDTO().getPelicula().getNombrePelicula()
+        );
+        if(funcion.getAsientosDisponibles() < venta.getAsientos()){
+            throw new CinemaException(NO_HAY_ASIENTOS.getMessage(), NO_HAY_ASIENTOS.getCode());
+        }
+        funcion.setAsientosDisponibles(funcion.getAsientosDisponibles() - venta.getAsientos());
+        Venta ventaModel = toVentaModel(venta);
+        ventas.add(ventaModel);
+    }
+
+    private VentaDTO modelVentaToDto(Venta venta){
+        return modelVentaToDto(venta);
+    }
+
     private  Venta buscarVentaPorFuncion(Funcion funcion){
         for (Venta venta:getVentas()) {
             if(Objects.equals(funcion,venta.getFuncion())){
@@ -74,30 +112,5 @@ public class VentasController {
             }
         }
         return null;
-    }
-
-    /**
-     * View a desarrollar
-     *
-     * @param genero
-     * @return
-     */
-    public List<VentaDto> funcionesVendidasPorGenero(TipoGenero genero) throws CinemaException {
-        List<VentaDto> ventaDtos = new ArrayList<>();
-        List<Funcion> funciones = funcionController.buscarPeliculaPorGenerosFuncion(genero);
-        if(funciones.isEmpty()){
-            throw new CinemaException(FUNCIONES_NO_ENCONTRADAS.getMessage(), FUNCIONES_NO_ENCONTRADAS.getCode());
-        }
-        for (Funcion funcion:funciones) {
-            Venta venta = buscarVentaPorFuncion(funcion);
-            if(Objects.isNull(venta)){
-                ventaDtos.add(modelVentaToDto(venta));
-            }
-        }
-        return ventaDtos;
-    }
-
-    public VentaDto modelVentaToDto(Venta venta){
-        return modelVentaToDto(venta);
     }
 }

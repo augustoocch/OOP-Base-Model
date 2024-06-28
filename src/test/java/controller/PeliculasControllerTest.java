@@ -38,6 +38,28 @@ public class PeliculasControllerTest {
         assertEquals(TipoGenero.Drama, peliculas.get(0).getGeneroID());
     }
 
+    @Test
+    public void testConsultarPeliculaPorNombre() throws CinemaException {
+        peliculasController.registrarPelicula(obtenerPeliculaDTO());
+        peliculasController.registrarPelicula(obtenerPeliculaDTO2());
+
+        Pelicula pelicula = peliculasController.obtenerPeliculaPorNombre("La caida del halcon");
+        assertEquals("La caida del halcon", pelicula.getNombrePelicula());
+        assertEquals("Jacobo Mark", pelicula.getDirector());
+        assertEquals(132, pelicula.getDuracionEnMinutos());
+        assertEquals(TipoGenero.Suspenso, pelicula.getGeneroID());
+    }
+
+    @Test
+    public void testAgregarPeliculaExistenteArrojaError() throws CinemaException {
+        peliculasController.registrarPelicula(obtenerPeliculaDTO());
+        try {
+            peliculasController.registrarPelicula(obtenerPeliculaDTO());
+        } catch (CinemaException e) {
+            assertEquals("Pelicula ya existente", e.getMessage());
+        }
+    }
+
     private PeliculaDTO obtenerPeliculaDTO() {
         List<String> actores = List.of("Leonardo DiCaprio", "Kate Winslet");
         PeliculaDTO peliculaDTO = new PeliculaDTO();
@@ -46,6 +68,17 @@ public class PeliculasControllerTest {
         peliculaDTO.setDirector("Jacobo Mark");
         peliculaDTO.setGeneroID(TipoGenero.Drama);
         peliculaDTO.setDuracionEnMinutos(195);
+        return peliculaDTO;
+    }
+
+    private PeliculaDTO obtenerPeliculaDTO2() {
+        List<String> actores = List.of("Javier Bardem", "Penelope Cruz");
+        PeliculaDTO peliculaDTO = new PeliculaDTO();
+        peliculaDTO.setNombrePelicula("La caida del halcon");
+        peliculaDTO.setActores(actores);
+        peliculaDTO.setDirector("Jacobo Mark");
+        peliculaDTO.setGeneroID(TipoGenero.Suspenso);
+        peliculaDTO.setDuracionEnMinutos(132);
         return peliculaDTO;
     }
 }

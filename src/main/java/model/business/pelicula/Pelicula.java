@@ -15,6 +15,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Pelicula {
+    private int peliculaID;
     private TipoGenero generoID;
     private String nombrePelicula;
     private int duracionEnMinutos;

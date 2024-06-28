@@ -15,11 +15,11 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class VentaDto {
+public class VentaDTO {
     private FuncionDTO funcionDTO;
+    private Integer asientos;
     private Date fchVenta;
     private List<Combo> combos;
-    private Funcion funcion;
     private TarjetaDescuento tarjetaDescuento;
 
 }

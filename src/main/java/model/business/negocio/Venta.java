@@ -15,6 +15,7 @@ import java.util.*;
 @NoArgsConstructor
 public class Venta {
     private int ventaID;
+    private Integer asientos;
     private Date fchVenta;
     private List<Combo> combos;
     private Funcion funcion;
@@ -57,6 +58,7 @@ public class Venta {
 
 
     public float calcularMontoDeLaVentaPorFuncionCombos(){
-        return funcion.calcularMontoPorEntradaDeLaPelicula()+calcularMontoPorComboDeVenta();
+        return funcion
+                .calcularMontoPorEntradaDeLaPelicula()+calcularMontoPorComboDeVenta();
     }
 }
