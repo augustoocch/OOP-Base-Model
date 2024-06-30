@@ -16,8 +16,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FuncionControllerTest {
-
-
     private FuncionController funcionController;
 
     @BeforeEach

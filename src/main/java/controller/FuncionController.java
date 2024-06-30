@@ -2,9 +2,11 @@ package controller;
 
 import config.CineConfig;
 import model.business.cine.Funcion;
+import model.business.cine.Sala;
 import model.business.pelicula.Entrada;
 import model.constants.TipoGenero;
 import model.dto.FuncionDTO;
+import model.dto.PeliculaDTO;
 import model.exception.CinemaException;
 import model.mapper.FuncionMapper;
 
@@ -60,14 +62,8 @@ public class FuncionController {
         return funcionDTOList;
     }
 
-    public int peliculaMasVista() {
-        // TODO implement here
-        return 0;
-    }
-
-    public int diaDeLaSemanaConMenorVentas() {
-        // TODO implement here
-        return 0;
+    public List<Funcion> getFunciones() {
+        return funciones;
     }
 
     public void registrarFuncionPorGenero(FuncionDTO funcionDTO) throws CinemaException {
@@ -116,6 +112,14 @@ public class FuncionController {
             }
         }
         throw new CinemaException(FUNCIONES_NO_ENCONTRADAS.getMessage(), FUNCIONES_NO_ENCONTRADAS.getCode());
+    }
+
+    public List<Sala> obtenerSalas() {
+        return config.getTodasLasSalas();
+    }
+
+    public List<String> obtenerHorarios() {
+        return config.getListadoHorasCine();
     }
 
     private boolean validarFuncionExiste(FuncionDTO funcionDTO) {

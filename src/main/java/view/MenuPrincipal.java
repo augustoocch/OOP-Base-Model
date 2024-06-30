@@ -42,6 +42,7 @@ public class MenuPrincipal extends JFrame {
 		botonRegistrarFuncion();
 		botonRegistrarPelicula();
 		botonConsultarPelicula();
+		botonVenderTicket();
 	}
 
 	private void botonRegistrarFuncion() {
@@ -77,6 +78,17 @@ public class MenuPrincipal extends JFrame {
 		contentPane.add(btnConsultarPelicula);
 	}
 
+	private void botonVenderTicket() {
+		JButton btnVenderTicket = new JButton("Vender Ticket");
+		btnVenderTicket.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mostrarCamposVenderTicket();
+			}
+		});
+		btnVenderTicket.setBounds(107, 230, 210, 23);
+		contentPane.add(btnVenderTicket);
+	}
+
 	private void mostrarCamposNuevaFuncion() {
 		this.setVisible(false);
 		try{
@@ -98,6 +110,16 @@ public class MenuPrincipal extends JFrame {
 		this.setVisible(false);
 		ConsultarPelicula consultarPelicula = new ConsultarPelicula();
 		consultarPelicula.setVisible(true);
+	}
+
+	private void mostrarCamposVenderTicket() {
+		try{
+			VenderTicket venderTicket = new VenderTicket();
+			venderTicket.setVisible(true);
+		} catch (CinemaException e) {
+			mostrarNuevoAlertaDeError(e.getMessage());
+			volverAlMenuPrincipal();
+		}
 	}
 
 	private void mostrarMensajeExito() {

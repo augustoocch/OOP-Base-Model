@@ -1,5 +1,6 @@
 package controller;
 
+import config.CineConfig;
 import lombok.Getter;
 import lombok.Setter;
 import model.business.pelicula.Pelicula;
@@ -22,11 +23,13 @@ public class PeliculasController {
 	private List<Pelicula> peliculas;
     private static PeliculasController instancia;
     private PeliculaMapper peliculaMapper;
+    private CineConfig config;
 	
     private PeliculasController() {
     	peliculas= new ArrayList<Pelicula>();
         id = new AtomicInteger(0);
         peliculaMapper = new PeliculaMapper();
+        config = CineConfig.getInstance();
     }
 
     public static PeliculasController obtenerInstancia() {
@@ -61,6 +64,10 @@ public class PeliculasController {
         Pelicula nuevaPelicula = peliculaMapper.toPeliculaModel(peliculaDTO);
         nuevaPelicula.setPeliculaID(id.incrementAndGet());
         peliculas.add(nuevaPelicula);
+    }
+
+    public List<String> obtenerListaActores(){
+        return config.getListaActores();
     }
 
     public void ABM() {

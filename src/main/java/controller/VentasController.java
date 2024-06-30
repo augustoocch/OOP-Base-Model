@@ -41,16 +41,6 @@ public class VentasController {
         return instancia;
     }
 
-    public float recaudacionPorFuncion(int funcionID) {
-        // TODO implement here
-        return 0.0f;
-    }
-
-    /**
-     * Caso de secuencia a desarrollar
-     * @param peliculaID
-     * @return
-     */
     public float recaudacionPorPelicula(int peliculaID) {
         List<Funcion> funciones = funcionController.buscarPeliculaPorIdPelicula(peliculaID);
         if(funciones.isEmpty()){
@@ -68,15 +58,6 @@ public class VentasController {
             }
         }
     	return totalrecuadado;
-    }
-
-    public float recaudacionPorTarjetaDescuento(TipoTarjeta tipoTarjeta) {
-        // TODO implement here
-        return 0.0f;
-    }
-
-    public void comboMasVendido() {
-        // TODO implement here
     }
 
     public List<VentaDTO> funcionesVendidasPorGenero(TipoGenero genero) throws CinemaException {

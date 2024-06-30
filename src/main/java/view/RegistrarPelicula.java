@@ -1,5 +1,6 @@
 package view;
 import config.CineConfig;
+import controller.DescuentoController;
 import controller.PeliculasController;
 import model.constants.TipoGenero;
 import model.constants.TipoProyeccion;
@@ -29,7 +30,8 @@ public class RegistrarPelicula extends JFrame {
 	private JComboBox<String> condicionesDescuento;
 	private List<JToggleButton> actorButtons;
 	private JPanel actorPanel;
-	private CineConfig config = CineConfig.getInstance();
+	private DescuentoController descuentoController = DescuentoController.obtenerInstancia();
+	private PeliculasController peliculaController = PeliculasController.obtenerInstancia();
 
 
 	public static void main(String[] args) {
@@ -194,7 +196,7 @@ public class RegistrarPelicula extends JFrame {
 		proyeccion.setBounds(10, 280, 305, 20);
 		contentPane.add(proyeccion);
 
-		List<String> condicionesList = config.getCondicionesDescuento()
+		List<String> condicionesList = descuentoController.obtenerDescuentos()
 				.stream()
 				.map(i -> String.valueOf(i.getIdDescuento()))
 				.toList();
@@ -206,7 +208,7 @@ public class RegistrarPelicula extends JFrame {
 		condicionesDescuento.setBounds(10, 340, 305, 20);
 		contentPane.add(condicionesDescuento);
 
-		List<String> actoresList = config.getListaActores();
+		List<String> actoresList = peliculaController.obtenerListaActores();
 		actorButtons = new ArrayList<>();
 		int numRows = 2;
 		int numCols = (int) Math.ceil((double) actoresList.size() / numRows);
