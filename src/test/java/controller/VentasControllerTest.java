@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class VentasControllerTest {
 
@@ -33,21 +34,17 @@ public class VentasControllerTest {
 
     @Test
     public void testRegistrarVenta() throws CinemaException {
-        LocalDate localDate = LocalDate.now().plusMonths(1);
-        Date fecha = java.sql.Date.valueOf(localDate);
-        FuncionDTO funcionDTO = new FuncionDTO(
-                obtenerPelicula(),
-                "20:00", fecha,
-                obtenerSala());
+        FuncionDTO funcionDTO = obtenerFuncionDTO();
         FuncionController.obtenerInstancia().registrarFuncionPorGenero(funcionDTO);
-        ventasController.registrarVenta(crearVentaDTO());
+        ventasController.registrarVenta(crearVentaDTO(funcionDTO));
         assertEquals(1, ventasController.getVentas().size());
     }
 
     @Test
     public void testRegistrarVentaSinFuncionesExcepcion() {
         try {
-            ventasController.registrarVenta(crearVentaDTO());
+            FuncionDTO funcionDTO = obtenerFuncionDTO();
+            ventasController.registrarVenta(crearVentaDTO(funcionDTO));
         } catch (CinemaException e) {
             assertEquals("Funciones no encontradas", e.getMessage());
         }
@@ -55,24 +52,53 @@ public class VentasControllerTest {
 
     @Test
     public void testCalcularRecaudacionPorPelicula() throws CinemaException {
-        LocalDate localDate = LocalDate.now().plusMonths(1);
-        Date fecha = java.sql.Date.valueOf(localDate);
-        FuncionDTO funcionDTO = new FuncionDTO(
-                obtenerPelicula(),
-                "20:00", fecha,
-                obtenerSala());
+        FuncionDTO funcionDTO = obtenerFuncionDTO();
         FuncionController.obtenerInstancia().registrarFuncionPorGenero(funcionDTO);
-        ventasController.registrarVenta(crearVentaDTO());
-        assertEquals(1, ventasController.recaudacionPorPelicula(0));
+        ventasController.registrarVenta(crearVentaDTO(funcionDTO));
+        assertEquals(1000, ventasController.recaudacionPorPelicula(0));
+    }
+
+    @Test
+    public void testCalcularRecaudacionVariasFunciones() throws CinemaException {
+        FuncionDTO funcionDTO = obtenerFuncionDTO();
+        FuncionDTO funcionDTOII = obtenerFuncionDTOII();
+
+        FuncionController.obtenerInstancia().registrarFuncionPorGenero(funcionDTO);
+        FuncionController.obtenerInstancia().registrarFuncionPorGenero(funcionDTOII);
+        ventasController.registrarVenta(crearVentaDTO(funcionDTO));
+        ventasController.registrarVenta(crearVentaDTOII(funcionDTOII));
+        assertEquals(2000, ventasController.recaudacionPorPelicula(0));
+    }
+
+    @Test
+    public void testRegistrarVentaTiraErrorAsientoOcupado() throws CinemaException {
+        FuncionDTO funcionDTO = obtenerFuncionDTO();
+
+        FuncionController.obtenerInstancia().registrarFuncionPorGenero(funcionDTO);
+        ventasController.registrarVenta(crearVentaDTO(funcionDTO));
+        assertThrows(CinemaException.class, () -> ventasController.registrarVenta(crearVentaDTO(funcionDTO)));
     }
 
 
-    private VentaDTO crearVentaDTO() {
+    private VentaDTO crearVentaDTO(FuncionDTO funcionDTO) {
         Date fecha = new Date();
         VentaDTO ventaDTO = new VentaDTO();
         ventaDTO.setFchVenta(fecha);
-        ventaDTO.setFuncionDTO(obtenerFuncionDTO());
+        ventaDTO.setFuncionDTO(funcionDTO);
         ventaDTO.setAsientos(5);
+        ventaDTO.setAsientosSeleccionados(List.of(1, 2, 3, 4, 5));
+        ventaDTO.setCombos(null);
+        ventaDTO.setTarjetaDescuento(null);
+        return ventaDTO;
+    }
+
+    private VentaDTO crearVentaDTOII(FuncionDTO funcionDTO) {
+        Date fecha = new Date();
+        VentaDTO ventaDTO = new VentaDTO();
+        ventaDTO.setFchVenta(fecha);
+        ventaDTO.setFuncionDTO(funcionDTO);
+        ventaDTO.setAsientos(5);
+        ventaDTO.setAsientosSeleccionados(List.of(10, 11, 12, 13, 14));
         ventaDTO.setCombos(null);
         ventaDTO.setTarjetaDescuento(null);
         return ventaDTO;
@@ -85,6 +111,16 @@ public class VentasControllerTest {
         FuncionDTO funcionDTO = new FuncionDTO(
                 obtenerPelicula(),
                 "20:00", fecha,
+                obtenerSala());
+        return funcionDTO;
+    }
+
+    private FuncionDTO obtenerFuncionDTOII() {
+        LocalDate localDate = LocalDate.now().plusMonths(1);
+        Date fecha = java.sql.Date.valueOf(localDate);
+        FuncionDTO funcionDTO = new FuncionDTO(
+                obtenerPelicula(),
+                "16:00", fecha,
                 obtenerSala());
         return funcionDTO;
     }

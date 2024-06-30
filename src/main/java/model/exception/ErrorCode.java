@@ -11,6 +11,7 @@ public enum ErrorCode {
     NO_HAY_PELICULAS("No hay peliculas registradas", 201),
     NO_HAY_FUNCIONES("No hay funciones registradas", 202),
     NO_HAY_ASIENTOS("No hay asientos disponibles", 203),
+    ASIENTO_YA_OCUPADO("Asiento ya ocupado", 204),
 
     VALORES_NULOS("Todos los campos deben ser seleccionados", 300),
     DURACION_INVALIDA("Duración inválida", 301),

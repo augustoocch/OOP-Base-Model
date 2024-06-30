@@ -1,26 +1,30 @@
 package controller;
 
+import config.CineConfig;
 import model.business.cine.Funcion;
 import model.business.pelicula.Entrada;
 import model.constants.TipoGenero;
 import model.dto.FuncionDTO;
 import model.exception.CinemaException;
+import model.mapper.FuncionMapper;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static model.constants.NegocioConstantes.PRECIO_ENTRADA;
 import static model.exception.ErrorCode.FUNCIONES_NO_ENCONTRADAS;
 import static model.exception.ErrorCode.FUNCION_YA_EXISTENTE;
-import static model.mapper.FuncionMapper.toDTOFuncion;
 
 public class FuncionController {
     private AtomicInteger id;
     private List<Funcion> funciones;
-    public static FuncionController instancia;
+    private static FuncionController instancia;
+    private CineConfig config;
+    private FuncionMapper funcionMapper;
 
     private FuncionController() {
         funciones = new ArrayList<Funcion>();
         id = new AtomicInteger(0);
+        config = CineConfig.getInstance();
+        funcionMapper = new FuncionMapper();
     }
 
     public static FuncionController obtenerInstancia() {
@@ -37,7 +41,7 @@ public class FuncionController {
     public int obtenerAsientosDisponiblePorFuncion(int funcionID) throws CinemaException {
         for(Funcion funcion:funciones){
             if(funcion.getFuncionID() == funcionID){
-                return funcion.getCantidadAsientosDisponibles();
+                return funcion.getAsientosDisponibles();
             }
         }
         throw new CinemaException(FUNCIONES_NO_ENCONTRADAS.getMessage(), FUNCIONES_NO_ENCONTRADAS.getCode());
@@ -50,7 +54,7 @@ public class FuncionController {
 
          List<FuncionDTO> funcionDTOList = new ArrayList<>();
         for (Funcion funcion : funcionList) {
-            FuncionDTO funcionDTO = toDTOFuncion(funcion);
+            FuncionDTO funcionDTO = funcionMapper.toDTOFuncion(funcion);
             funcionDTOList.add(funcionDTO);
         }
         return funcionDTOList;
@@ -101,10 +105,12 @@ public class FuncionController {
         return funciones;
     }
 
-    public Funcion buscarFuncionPorFechaYPelicula(Date fecha, String peliculaName) throws CinemaException {
+    public Funcion buscarFuncionPorFechaYPelicula(Date fecha, String hora, String peliculaName) throws CinemaException {
         Funcion funcionEncontrada = new Funcion();
         for (Funcion funcion : funciones) {
-            if (funcion.getFecha().equals(fecha) && funcion.getPelicula().getNombrePelicula().equals(peliculaName)) {
+            if (funcion.getFecha().equals(fecha)
+                    && funcion.getHorario().equals(hora)
+                    && funcion.getPelicula().getNombrePelicula().equals(peliculaName)) {
                 funcionEncontrada = funcion;
                 return funcionEncontrada;
             }
@@ -118,5 +124,4 @@ public class FuncionController {
                         && f.getHorario().equals(funcionDTO.getHorario())
                         && f.getSala().equals(funcionDTO.getSala()));
     }
-
 }

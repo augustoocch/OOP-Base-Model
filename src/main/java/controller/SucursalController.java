@@ -1,22 +1,22 @@
 package controller;
 
+import config.CineConfig;
 import lombok.Getter;
 import lombok.Setter;
 import model.business.cine.Sala;
 import model.business.cine.Sucursal;
 
 import java.util.*;
-import static model.utils.NegocioUtils.getSucursalesList;
 
 @Getter
 @Setter
 public class SucursalController {
-
 	private List<Sucursal> sucursalesListado;
     public static SucursalController instancia;
+    private CineConfig config = CineConfig.getInstance();
 		
     private SucursalController() {
-        sucursalesListado = getSucursalesList();
+        sucursalesListado = config.getSucursalesList();
     }
 
     public static SucursalController obtenerInstancia() {

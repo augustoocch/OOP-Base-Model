@@ -18,6 +18,7 @@ import java.util.List;
 public class VentaDTO {
     private FuncionDTO funcionDTO;
     private Integer asientos;
+    private List<Integer> asientosSeleccionados;
     private Date fchVenta;
     private List<Combo> combos;
     private TarjetaDescuento tarjetaDescuento;

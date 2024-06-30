@@ -5,7 +5,9 @@ import model.dto.FuncionDTO;
 
 public class FuncionMapper {
 
-    public static Funcion toModelFuncion(FuncionDTO funcionDTO) {
+    public FuncionMapper() {}
+
+    public Funcion toModelFuncion(FuncionDTO funcionDTO) {
         Funcion funcion = new Funcion();
         funcion.setFecha(funcionDTO.getFecha());
         funcion.setPelicula(funcionDTO.getPelicula());
@@ -14,7 +16,7 @@ public class FuncionMapper {
         return funcion;
     }
 
-    public static FuncionDTO toDTOFuncion(Funcion funcion) {
+    public FuncionDTO toDTOFuncion(Funcion funcion) {
         FuncionDTO funcionDTO = new FuncionDTO();
         funcionDTO.setFecha(funcion.getFecha());
         funcionDTO.setPelicula(funcion.getPelicula());

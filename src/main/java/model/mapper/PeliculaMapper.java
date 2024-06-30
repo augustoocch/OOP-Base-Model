@@ -1,14 +1,16 @@
 package model.mapper;
 
+import config.CineConfig;
 import model.business.negocio.CondicionesDescuento;
 import model.business.pelicula.Pelicula;
 import model.dto.PeliculaDTO;
 
-import static model.utils.NegocioUtils.findCondicionesDescuentoById;
-
 public class PeliculaMapper {
+    private CineConfig config = CineConfig.getInstance();
 
-    public static PeliculaDTO toPeliculaDto(Pelicula model) {
+    public PeliculaMapper() {}
+
+    public PeliculaDTO toPeliculaDto(Pelicula model) {
         PeliculaDTO dto = new PeliculaDTO();
         dto.setGeneroID(model.getGeneroID());
         dto.setNombrePelicula(model.getNombrePelicula());
@@ -20,7 +22,7 @@ public class PeliculaMapper {
         return dto;
     }
 
-    public static Pelicula toPeliculaModel(PeliculaDTO dto) {
+    public Pelicula toPeliculaModel(PeliculaDTO dto) {
         Pelicula model = new Pelicula();
         model.setGeneroID(dto.getGeneroID());
         model.setNombrePelicula(dto.getNombrePelicula());
@@ -28,7 +30,7 @@ public class PeliculaMapper {
         model.setDirector(dto.getDirector());
         model.setActores(dto.getActores());
         model.setTipo(dto.getTipo());
-        CondicionesDescuento condicionesDescuento = findCondicionesDescuentoById(dto.getCondicionesDescuento());
+        CondicionesDescuento condicionesDescuento = config.findCondicionesDescuentoById(dto.getCondicionesDescuento());
         model.setCondicionesDescuento(condicionesDescuento);
         return model;
     }

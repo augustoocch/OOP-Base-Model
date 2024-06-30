@@ -36,12 +36,6 @@ public class Funcion {
         return 0;
     }
 
-    public int getCantidadAsientosDisponibles() {
-    	
-		return 0;
-        // TODO implement here
-    }
-
     public float calcularMontoPorEntradaDeLaPelicula(){
         float total = 0.0f;
         for (Entrada entrada:getEntradas()) {

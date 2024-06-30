@@ -11,9 +11,9 @@ import model.business.cine.Funcion;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Entrada {
-    private float precio;
+    private int id;
     private int nroAsiento;
-    public Funcion funcion;
+    private float precio;
 
     public int getFuncionID() {
         // TODO implement here

@@ -1,17 +1,17 @@
 package controller;
 
+import config.CineConfig;
 import model.business.negocio.CondicionesDescuento;
 
 import java.util.*;
 
-import static model.utils.NegocioUtils.getCondicionesDescuento;
-
 public class DescuentoController {
 	private static DescuentoController instancia;
 	private List<CondicionesDescuento> descuentos;
+	private CineConfig config = CineConfig.getInstance();
 	
     private DescuentoController() {
-    	descuentos = getCondicionesDescuento();
+    	descuentos = config.getCondicionesDescuento();
     }
 
 	public static DescuentoController obtenerInstancia() {
@@ -23,6 +23,4 @@ public class DescuentoController {
 
     public void ABM() {
 	}
-
-
 }

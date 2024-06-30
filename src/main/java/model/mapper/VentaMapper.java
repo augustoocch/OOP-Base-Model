@@ -5,17 +5,20 @@ import model.business.negocio.Venta;
 import model.dto.FuncionDTO;
 import model.dto.VentaDTO;
 
-import static model.mapper.FuncionMapper.toModelFuncion;
-
 public class VentaMapper {
+    private FuncionMapper funcionMapper;
 
-    public static VentaDTO toVentaDto(FuncionDTO funcionDTO) {
+    public VentaMapper() {
+        funcionMapper = new FuncionMapper();
+    }
+
+    public VentaDTO toVentaDto(FuncionDTO funcionDTO) {
         VentaDTO dto = new VentaDTO();
         return dto;
     }
 
-    public static Venta toVentaModel(VentaDTO dto) {
-        Funcion funcion = toModelFuncion(dto.getFuncionDTO());
+    public Venta toVentaModel(VentaDTO dto) {
+        Funcion funcion = funcionMapper.toModelFuncion(dto.getFuncionDTO());
         Venta model = new Venta();
         model.setCombos(dto.getCombos());
         model.setFuncion(funcion);

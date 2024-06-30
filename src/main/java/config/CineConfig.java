@@ -1,4 +1,4 @@
-package model.utils;
+package config;
 
 import model.business.cine.Sala;
 import model.business.cine.Sucursal;
@@ -10,30 +10,60 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static model.constants.NegocioConstantes.*;
+public class CineConfig {
+    private static CineConfig instance;
+    private final float PRECIO_ENTRADA = 200.0f;
 
-public class NegocioUtils {
+    private CineConfig() {}
+
+    public static CineConfig getInstance() {
+        if (instance == null) {
+            instance = new CineConfig();
+        }
+        return instance;
+    }
+
+
     public static List<Sala> getSalasCine1(){
+        Sala sala1 = new Sala(1, "Sala 1", 100);
+        Sala sala2 = new Sala(2, "Sala 2", 110);
+        Sala sala3 = new Sala(3, "Sala 3", 200);
+        Sala sala4 = new Sala(4, "Sala 4", 200);
+        Sala sala5 = new Sala(5, "Sala 5", 210);
         return List.of(sala1, sala2, sala3, sala4, sala5);
     }
 
-    public static List<Sala> getSalasCine2(){
+    public List<Sala> getSalasCine2(){
+        Sala sala6 = new Sala(6, "Sala 6", 100);
+        Sala sala7 = new Sala(7, "Sala 7", 150);
+        Sala sala8 = new Sala(8, "Sala 8", 250);
+        Sala sala9 = new Sala(9, "Sala 9", 250);
+        Sala sala10 = new Sala(10, "Sala 10", 210);
+        Sala sala11 = new Sala(11, "Sala 11", 200);
         return List.of(sala6, sala7, sala8, sala9, sala10, sala11);
     }
 
-    public static List<Sala> getTodasLasSalas(){
-        return List.of(sala1, sala2, sala3, sala4, sala5, sala6, sala7, sala8, sala9, sala10, sala11);
+    public List<Sala> getTodasLasSalas(){
+        List<Sala> salasCine1 = getSalasCine1();
+        List<Sala> salasCine2 = getSalasCine2();
+        List<Sala> todasLasSalas = new ArrayList<>();
+        todasLasSalas.addAll(salasCine1);
+        todasLasSalas.addAll(salasCine2);
+        return todasLasSalas;
     }
 
-    public static List<Sucursal> getSucursalesList() {
+    public List<Sucursal> getSucursalesList() {
+        Sucursal sucursal1 = new Sucursal(1, "Cine 1", "Direccion 1", getSalasCine1());
+        Sucursal sucursal2 = new Sucursal(2, "Cine 2", "Direccion 2", getSalasCine2());
         return List.of(sucursal1, sucursal2);
     }
 
-    public static List<String> getListaActores(){
-        return actoresArgentinos;
+    public List<String> getListaActores(){
+        return List.of("Ricardo Darin", "Guillermo Francella",
+                "Luis Brandoni", "Julieta Diaz", "Natalia Oreiro", "Gastón Pauls", "China Zorrilla", "Norma Aleandro");
     }
 
-    public static List<CondicionesDescuento> getCondicionesDescuento() {
+    public List<CondicionesDescuento> getCondicionesDescuento() {
         List<CondicionesDescuento> listado = new ArrayList<>();
         List<Date> fechas = getFechas();
         List<String> idDescuento = getIdDescuento();
@@ -50,7 +80,7 @@ public class NegocioUtils {
         return listado;
     }
 
-    public static CondicionesDescuento findCondicionesDescuentoById(String idDescuento){
+    public CondicionesDescuento findCondicionesDescuentoById(String idDescuento){
         return getCondicionesDescuento()
                 .stream()
                 .filter(condicionesDescuento ->
@@ -58,7 +88,7 @@ public class NegocioUtils {
                 .findFirst().orElse(null);
     }
 
-    public static List<String>  getListadoHorasCine(){
+    public List<String> getListadoHorasCine(){
         List<String> horas = new ArrayList<>();
         for (int i = 0; i < 11; i++) {
             horas.add(String.valueOf(i + 10) + ":00");
@@ -66,7 +96,11 @@ public class NegocioUtils {
         return horas;
     }
 
-    private static List<Date> getFechas(){
+    public float getPrecioEntrada(){
+        return PRECIO_ENTRADA;
+    }
+
+    private List<Date> getFechas(){
         List<Date> fechas = new ArrayList<>();
         for (int i = 0; i < 11; i++) {
             Calendar cal = Calendar.getInstance();
@@ -77,7 +111,7 @@ public class NegocioUtils {
         return fechas;
     }
 
-    private static List<String> getIdDescuento(){
+    private List<String> getIdDescuento(){
         List<String> idDescuento = new ArrayList<>();
         String letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         for (int i = 0; i < 11; i++) {

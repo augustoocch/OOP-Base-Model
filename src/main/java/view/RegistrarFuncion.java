@@ -1,6 +1,7 @@
 package view;
 
 
+import config.CineConfig;
 import controller.FuncionController;
 import controller.PeliculasController;
 import controller.SucursalController;
@@ -22,7 +23,6 @@ import java.util.List;
 import java.util.Properties;
 
 import static model.exception.ErrorCode.*;
-import static model.utils.NegocioUtils.*;
 
 
 public class RegistrarFuncion extends JFrame {
@@ -36,6 +36,7 @@ public class RegistrarFuncion extends JFrame {
     private PeliculasController peliculasController = PeliculasController.obtenerInstancia();
     private FuncionController funcionController = FuncionController.obtenerInstancia();
     private SucursalController sucursalController = SucursalController.obtenerInstancia();
+    private CineConfig config = CineConfig.getInstance();
 
 
     public void main(String[] args) {
@@ -100,7 +101,8 @@ public class RegistrarFuncion extends JFrame {
         contentPane.add(peliculaNombre);
 
         horarios = new JComboBox<String>();
-        horarios.setModel(new DefaultComboBoxModel<>(getListadoHorasCine().toArray(new String[0])));
+        horarios.setModel(new DefaultComboBoxModel<>(
+                config.getListadoHorasCine().toArray(new String[0])));
         horarios.setBounds(112, 140, 200, 20);
         contentPane.add(horarios);
 
@@ -160,7 +162,7 @@ public class RegistrarFuncion extends JFrame {
     }
 
     private List<String> obtenerSalas() {
-        List<Sala> obtenerSalas = getTodasLasSalas();
+        List<Sala> obtenerSalas = config.getTodasLasSalas();
         return obtenerSalas.stream()
                 .map(Sala::getDenominacion)
                 .toList();
