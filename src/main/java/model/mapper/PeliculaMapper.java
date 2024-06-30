@@ -18,7 +18,6 @@ public class PeliculaMapper {
         dto.setDirector(model.getDirector());
         dto.setActores(model.getActores());
         dto.setTipo(model.getTipo());
-        dto.setCondicionesDescuento(model.getCondicionesDescuento().getIdDescuento());
         return dto;
     }
 
@@ -30,8 +29,6 @@ public class PeliculaMapper {
         model.setDirector(dto.getDirector());
         model.setActores(dto.getActores());
         model.setTipo(dto.getTipo());
-        CondicionesDescuento condicionesDescuento = config.findCondicionesDescuentoById(dto.getCondicionesDescuento());
-        model.setCondicionesDescuento(condicionesDescuento);
         return model;
     }
 }

@@ -23,7 +23,6 @@ public class CineConfig {
         return instance;
     }
 
-
     public static List<Sala> getSalasCine1(){
         Sala sala1 = new Sala(1, "Sala 1", 100);
         Sala sala2 = new Sala(2, "Sala 2", 110);
@@ -70,9 +69,6 @@ public class CineConfig {
         for(int i = 0; i < 10; i++){
             CondicionesDescuento condicionesDescuento = new CondicionesDescuento();
             condicionesDescuento.setIdDescuento(idDescuento.get(i));
-            condicionesDescuento.setFchDesde(fechas.get(i));
-            condicionesDescuento.setFchHasta(fechas.get(i + 1));
-            condicionesDescuento.setDiaSemana(i);
             condicionesDescuento.setPorcentaje(i);
             condicionesDescuento.setTipoTarjeta(TipoTarjeta.values()[i % 5]);
             listado.add(condicionesDescuento);

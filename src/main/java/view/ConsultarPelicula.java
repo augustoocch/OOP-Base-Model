@@ -13,9 +13,7 @@ import java.util.List;
 
 import static model.exception.ErrorCode.*;
 
-
 public class ConsultarPelicula extends JFrame {
-
     private JPanel contentPane;
     private JComboBox<TipoGenero> boxSeleccionGenero;
     private JComboBox<String> boxDePeliculasEncontradas;

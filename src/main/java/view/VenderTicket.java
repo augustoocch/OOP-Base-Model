@@ -1,7 +1,6 @@
 package view;
 
 import controller.DescuentoController;
-import controller.FuncionController;
 import controller.PeliculasController;
 import controller.VentasController;
 import model.business.pelicula.Pelicula;
@@ -20,10 +19,8 @@ import static model.exception.ErrorCode.NO_HAY_PELICULAS;
 
 
 public class VenderTicket extends JFrame {
-
     private JPanel contentPane;
     private JComboBox<String> boxPeliculas;
-    private JComboBox<String> boxCombos;
     private JComboBox<String> boxTarjetaDescuento;
     private List<String> peliculasList;
     private final PeliculasController peliculasController = PeliculasController.obtenerInstancia();
@@ -69,7 +66,7 @@ public class VenderTicket extends JFrame {
                 }
             }
         });
-        btnAceptar.setBounds(300, 150, 114, 23);
+        btnAceptar.setBounds(150, 350, 114, 23);
         contentPane.add(btnAceptar);
     }
 
@@ -81,7 +78,7 @@ public class VenderTicket extends JFrame {
                 volverAlMenuPrincipal();
             }
         });
-        btnCancelar.setBounds(450, 150, 114, 23);
+        btnCancelar.setBounds(350, 350, 114, 23);
         contentPane.add(btnCancelar);
     }
 
@@ -116,7 +113,7 @@ public class VenderTicket extends JFrame {
     private void setLabels(){
         setTitle("Registrar Venta");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1000, 700);
+        setBounds(100, 100, 600, 600);
 
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -127,13 +124,12 @@ public class VenderTicket extends JFrame {
         lblPelicula.setBounds(50, 50, 100, 23);
         contentPane.add(lblPelicula);
 
-        JLabel lblCombo = new JLabel("Combo");
-        lblCombo.setBounds(50, 200, 100, 23);
-        contentPane.add(lblCombo);
-
         JLabel lblTarjetaDescuento = new JLabel("Tarjeta Descuento");
-        lblTarjetaDescuento.setBounds(50, 250, 100, 23);
+        lblTarjetaDescuento.setBounds(50, 150, 200, 23);
         contentPane.add(lblTarjetaDescuento);
+
+        botonAceptar();
+        botonCancelar();
     }
 
     private void setContenido(List<String> peliculasList) {
@@ -143,16 +139,14 @@ public class VenderTicket extends JFrame {
                 (peliculasList.toArray(new String[0])));
         contentPane.add(boxPeliculas);
 
-        boxCombos = new JComboBox<String>();
-        boxCombos.setBounds(200, 200, 200, 23);
-        contentPane.add(boxCombos);
-
-        List<String> tarjetasList = descuentoController.obtenerTarjetas()
+        List<String> tarjetasList = new ArrayList<>(descuentoController.obtenerTarjetas()
                 .stream()
-                .toList();
+                .toList());
+
+        tarjetasList.add(0, "Sin Descuento");
 
         boxTarjetaDescuento = new JComboBox<String>();
-        boxTarjetaDescuento.setBounds(200, 250, 200, 23);
+        boxTarjetaDescuento.setBounds(200, 150, 200, 23);
         boxTarjetaDescuento.setModel(new DefaultComboBoxModel<String>
                 (tarjetasList.toArray(new String[0])));
         contentPane.add(boxTarjetaDescuento);

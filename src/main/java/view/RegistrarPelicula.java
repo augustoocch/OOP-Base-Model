@@ -1,5 +1,5 @@
 package view;
-import config.CineConfig;
+
 import controller.DescuentoController;
 import controller.PeliculasController;
 import model.constants.TipoGenero;
@@ -20,14 +20,12 @@ import static model.exception.ErrorCode.*;
 
 
 public class RegistrarPelicula extends JFrame {
-
 	private JPanel contentPane;
 	private JComboBox<TipoGenero> generoID;
 	private JTextField nombre;
 	private JTextField duracionEnMinutos;
 	private JTextField director;
 	private JComboBox<TipoProyeccion> proyeccion;
-	private JComboBox<String> condicionesDescuento;
 	private List<JToggleButton> actorButtons;
 	private JPanel actorPanel;
 	private DescuentoController descuentoController = DescuentoController.obtenerInstancia();
@@ -58,7 +56,7 @@ public class RegistrarPelicula extends JFrame {
 		contentPane.setLayout(null);
 
 		actorPanel = new JPanel();
-		actorPanel.setBounds(112, 390, 600, 150);
+		actorPanel.setBounds(112, 350, 600, 150);
 
 		setearLabels();
 		setearCampos();
@@ -83,7 +81,6 @@ public class RegistrarPelicula extends JFrame {
 							.filter(JToggleButton::isSelected)
 							.map(JToggleButton::getText)
 							.collect(Collectors.toList()));
-					peliculaDTO.setCondicionesDescuento(condicionesDescuento.getSelectedItem().toString());
 					controller.registrarPelicula(peliculaDTO);
 					mostrarMensajeExito();
 					volverAlMenuPrincipal();
@@ -128,7 +125,6 @@ public class RegistrarPelicula extends JFrame {
 		if (nombre.getText().isEmpty()
 				|| duracionEnMinutos.getText().isEmpty()
 				|| director.getText().isEmpty() || proyeccion.getSelectedItem() == null
-				|| condicionesDescuento.getSelectedItem() == null
 				|| actorButtons.stream().noneMatch(JToggleButton::isSelected)) {
 			mostrarNuevoAlertaDeError(VALORES_NULOS.getMessage());
 			return true;
@@ -163,12 +159,8 @@ public class RegistrarPelicula extends JFrame {
 		lblProyeccion.setBounds(10, 250, 150, 14);
 		contentPane.add(lblProyeccion);
 
-		JLabel lblCondicionesDescuento = new JLabel("Condiciones Descuento:");
-		lblCondicionesDescuento.setBounds(10, 310, 175, 14);
-		contentPane.add(lblCondicionesDescuento);
-
 		JLabel lblActores = new JLabel("Actores:");
-		lblActores.setBounds(10, 370, 150, 14);
+		lblActores.setBounds(10, 310, 150, 14);
 		contentPane.add(lblActores);
 	}
 
@@ -195,18 +187,6 @@ public class RegistrarPelicula extends JFrame {
 		proyeccion.setModel(new DefaultComboBoxModel<TipoProyeccion>(TipoProyeccion.values()));
 		proyeccion.setBounds(10, 280, 305, 20);
 		contentPane.add(proyeccion);
-
-		List<String> condicionesList = descuentoController.obtenerDescuentos()
-				.stream()
-				.map(i -> String.valueOf(i.getIdDescuento()))
-				.toList();
-
-		condicionesDescuento = new JComboBox<String>();
-		condicionesDescuento.setModel(new DefaultComboBoxModel<String>
-				(condicionesList.toArray(new String[0])));
-
-		condicionesDescuento.setBounds(10, 340, 305, 20);
-		contentPane.add(condicionesDescuento);
 
 		List<String> actoresList = peliculaController.obtenerListaActores();
 		actorButtons = new ArrayList<>();

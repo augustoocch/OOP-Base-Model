@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import model.constants.TipoTarjeta;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Getter
@@ -14,19 +15,15 @@ import java.util.*;
 @NoArgsConstructor
 public class CondicionesDescuento {
     private String idDescuento;
-    private Date fchDesde;
-    private Date fchHasta;
-    private int diaSemana;
     private float porcentaje;
     private TipoTarjeta tipoTarjeta;
     private List<TarjetaDescuento> TarjetaDescuento;
 
-    public float getDescuento(){
-        float descuento = 0.0f;
-        for (TarjetaDescuento tarjetaDescuento: getTarjetaDescuento()) {
-            descuento += getDescuentoPorTarjeta(tarjetaDescuento.getTipoTarjeta());
+    public float getDescuento(TipoTarjeta tarjeta){
+        float descuento = getDescuentoPorTarjeta(tarjeta);
+        if (LocalDate.now().getDayOfWeek().getValue() <= 3){
+            descuento += 0.5f;
         }
-        descuento=descuento+porcentaje;
         return descuento;
     }
 

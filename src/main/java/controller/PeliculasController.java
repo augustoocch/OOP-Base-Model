@@ -24,12 +24,14 @@ public class PeliculasController {
     private static PeliculasController instancia;
     private PeliculaMapper peliculaMapper;
     private CineConfig config;
+    private List<String> actores;
 	
     private PeliculasController() {
     	peliculas= new ArrayList<Pelicula>();
         id = new AtomicInteger(0);
         peliculaMapper = new PeliculaMapper();
         config = CineConfig.getInstance();
+        actores = config.getListaActores();
     }
 
     public static PeliculasController obtenerInstancia() {
@@ -67,11 +69,7 @@ public class PeliculasController {
     }
 
     public List<String> obtenerListaActores(){
-        return config.getListaActores();
-    }
-
-    public void ABM() {
-        // TODO implement here
+        return actores;
     }
 
 }

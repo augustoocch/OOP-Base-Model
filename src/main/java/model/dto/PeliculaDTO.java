@@ -20,5 +20,4 @@ public class PeliculaDTO {
     private String director;
     private List<String> actores;
     private TipoProyeccion tipo;
-    private String condicionesDescuento;
 }

@@ -7,10 +7,8 @@ import model.business.negocio.Venta;
 import model.business.cine.Funcion;
 import model.business.pelicula.Entrada;
 import model.constants.TipoGenero;
-import model.constants.TipoTarjeta;
 import model.dto.VentaDTO;
 import model.exception.CinemaException;
-import model.mapper.PeliculaMapper;
 import model.mapper.VentaMapper;
 
 import java.util.*;
@@ -19,19 +17,22 @@ import static model.exception.ErrorCode.*;
 @Getter
 @Setter
 public class VentasController {
-
     private List<Venta> ventas;
     private static VentasController instancia;
     private FuncionController funcionController;
     private CineConfig config;
     private VentaMapper ventaMapper;
+    private DescuentoController descuentoController;
+    private final float PRECIO_ENTRADA;
 
 	
     private VentasController(){
         funcionController = FuncionController.obtenerInstancia();
+        descuentoController = DescuentoController.obtenerInstancia();
         ventas = new ArrayList<Venta>();
         config = CineConfig.getInstance();
         ventaMapper = new VentaMapper();
+        PRECIO_ENTRADA = config.getPrecioEntrada();
     }
 
     public static VentasController obtenerInstancia() {
@@ -94,12 +95,14 @@ public class VentasController {
     }
 
     private void agregarEntradas(Funcion funcion, VentaDTO venta) throws CinemaException {
+        float descuento = descuentoController.obtenerPorcentajeDescuento(venta.getTarjetaDescuento().getTipoTarjeta());
+        float entradaConDescuento = PRECIO_ENTRADA - (PRECIO_ENTRADA * descuento);
         if(Objects.isNull(funcion.getEntradas()) || funcion.getEntradas().isEmpty()){
             funcion.setEntradas(new ArrayList<>());
             for(Integer e : venta.getAsientosSeleccionados()){
                 Entrada entrada = new Entrada();
                 entrada.setNroAsiento(e);
-                entrada.setPrecio(config.getPrecioEntrada());
+                entrada.setPrecio(entradaConDescuento);
                 funcion.getEntradas().add(entrada);
             }
             return;
@@ -109,7 +112,7 @@ public class VentasController {
         for(Integer e : venta.getAsientosSeleccionados()){
             Entrada entrada = new Entrada();
             entrada.setNroAsiento(e);
-            entrada.setPrecio(config.getPrecioEntrada());
+            entrada.setPrecio(entradaConDescuento);
             funcion.getEntradas().add(entrada);
         }
     }

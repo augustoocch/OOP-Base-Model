@@ -2,7 +2,6 @@ package controller;
 
 import config.CineConfig;
 import model.business.negocio.CondicionesDescuento;
-import model.business.negocio.TarjetaDescuento;
 import model.constants.TipoTarjeta;
 
 import java.util.*;
@@ -28,6 +27,11 @@ public class DescuentoController {
 		return descuentos;
 	}
 
+	public float obtenerPorcentajeDescuento(TipoTarjeta tarjeta) {
+		CondicionesDescuento condicionesDescuento = new CondicionesDescuento();
+		return condicionesDescuento.getDescuento(tarjeta);
+	}
+
 	public List<String> obtenerTarjetas() {
 		TipoTarjeta[] tarjetas = TipoTarjeta.values();
 		List<String> tarjetasString = new ArrayList<>();
@@ -35,7 +39,5 @@ public class DescuentoController {
 			tarjetasString.add(tarjeta.name());
 		}
 		return tarjetasString;
-	}
-    public void ABM() {
 	}
 }

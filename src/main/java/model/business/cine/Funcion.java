@@ -35,13 +35,4 @@ public class Funcion {
         }
         return 0;
     }
-
-    public float calcularMontoPorEntradaDeLaPelicula(){
-        float total = 0.0f;
-        for (Entrada entrada:getEntradas()) {
-            total = total+ (entrada.getPrecio() -
-                    (entrada.getPrecio()*pelicula.getCondicionesDescuento().getDescuento()));
-        }
-        return total;
-    }
 }

@@ -6,7 +6,6 @@ import model.business.cine.Sala;
 import model.business.pelicula.Entrada;
 import model.constants.TipoGenero;
 import model.dto.FuncionDTO;
-import model.dto.PeliculaDTO;
 import model.exception.CinemaException;
 import model.mapper.FuncionMapper;
 
@@ -21,12 +20,16 @@ public class FuncionController {
     private static FuncionController instancia;
     private CineConfig config;
     private FuncionMapper funcionMapper;
+    private List<Sala> salas;
+    private List<String> horarios;
 
     private FuncionController() {
         funciones = new ArrayList<Funcion>();
         id = new AtomicInteger(0);
         config = CineConfig.getInstance();
         funcionMapper = new FuncionMapper();
+        salas = config.getTodasLasSalas();
+        horarios = config.getListadoHorasCine();
     }
 
     public static FuncionController obtenerInstancia() {
@@ -60,10 +63,6 @@ public class FuncionController {
             funcionDTOList.add(funcionDTO);
         }
         return funcionDTOList;
-    }
-
-    public List<Funcion> getFunciones() {
-        return funciones;
     }
 
     public void registrarFuncionPorGenero(FuncionDTO funcionDTO) throws CinemaException {
@@ -115,11 +114,11 @@ public class FuncionController {
     }
 
     public List<Sala> obtenerSalas() {
-        return config.getTodasLasSalas();
+        return salas;
     }
 
     public List<String> obtenerHorarios() {
-        return config.getListadoHorasCine();
+        return horarios;
     }
 
     private boolean validarFuncionExiste(FuncionDTO funcionDTO) {
