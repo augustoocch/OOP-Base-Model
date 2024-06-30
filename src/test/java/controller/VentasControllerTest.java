@@ -26,12 +26,6 @@ public class VentasControllerTest {
         ventasController = VentasController.obtenerInstancia();
     }
 
-
-    @Test
-    public void testRecaudacionPorPelicula() {
-
-    }
-
     @Test
     public void testRegistrarVenta() throws CinemaException {
         FuncionDTO funcionDTO = obtenerFuncionDTO();
@@ -42,12 +36,8 @@ public class VentasControllerTest {
 
     @Test
     public void testRegistrarVentaSinFuncionesExcepcion() {
-        try {
-            FuncionDTO funcionDTO = obtenerFuncionDTO();
-            ventasController.registrarVenta(crearVentaDTO(funcionDTO));
-        } catch (CinemaException e) {
-            assertEquals("Funciones no encontradas", e.getMessage());
-        }
+        FuncionDTO funcionDTO = obtenerFuncionDTO();
+        assertThrows(CinemaException.class, () -> ventasController.registrarVenta(crearVentaDTO(funcionDTO)));
     }
 
     @Test
@@ -65,6 +55,7 @@ public class VentasControllerTest {
 
         FuncionController.obtenerInstancia().registrarFuncionPorGenero(funcionDTO);
         FuncionController.obtenerInstancia().registrarFuncionPorGenero(funcionDTOII);
+
         ventasController.registrarVenta(crearVentaDTO(funcionDTO));
         ventasController.registrarVenta(crearVentaDTOII(funcionDTOII));
         assertEquals(2000, ventasController.recaudacionPorPelicula(0));
@@ -73,7 +64,6 @@ public class VentasControllerTest {
     @Test
     public void testRegistrarVentaTiraErrorAsientoOcupado() throws CinemaException {
         FuncionDTO funcionDTO = obtenerFuncionDTO();
-
         FuncionController.obtenerInstancia().registrarFuncionPorGenero(funcionDTO);
         ventasController.registrarVenta(crearVentaDTO(funcionDTO));
         assertThrows(CinemaException.class, () -> ventasController.registrarVenta(crearVentaDTO(funcionDTO)));
