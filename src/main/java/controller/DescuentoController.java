@@ -32,6 +32,10 @@ public class DescuentoController {
 		return condicionesDescuento.getDescuento(tarjeta);
 	}
 
+	public TipoTarjeta obtenerTarjeta(String tarjeta) {
+		return TipoTarjeta.valueOf(tarjeta);
+	}
+
 	public List<String> obtenerTarjetas() {
 		TipoTarjeta[] tarjetas = TipoTarjeta.values();
 		List<String> tarjetasString = new ArrayList<>();

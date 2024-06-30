@@ -43,14 +43,7 @@ public class FuncionController {
         // TODO implement here
     }
 
-    public int obtenerAsientosDisponiblePorFuncion(int funcionID) throws CinemaException {
-        for(Funcion funcion:funciones){
-            if(funcion.getFuncionID() == funcionID){
-                return funcion.getAsientosDisponibles();
-            }
-        }
-        throw new CinemaException(FUNCIONES_NO_ENCONTRADAS.getMessage(), FUNCIONES_NO_ENCONTRADAS.getCode());
-    }
+
 
     public List<FuncionDTO> getListaFuncionesPorFecha(Date fchFuncion) {
        List<Funcion> funcionList = funciones.stream()
@@ -78,6 +71,25 @@ public class FuncionController {
                 funcionDTO.getSala().getAsientos()
         );
         funciones.add(funcion);
+    }
+
+    public List<Funcion> obtenerFuncionesPorNombrePelicula(String nombrePelicula) {
+        List<Funcion> funcionesDeLaPelicula = new ArrayList<>();
+        for (Funcion funcion : funciones) {
+            if (funcion.getPelicula().getNombrePelicula().equals(nombrePelicula)) {
+                funcionesDeLaPelicula.add(funcion);
+            }
+        }
+        return funcionesDeLaPelicula;
+    }
+
+    public FuncionDTO obtenerFuncionPorId(int funcionID) {
+        FuncionMapper funcionMapper = new FuncionMapper();
+        Funcion funcion=  funciones.stream()
+                .filter(f -> f.getFuncionID() == funcionID)
+                .findFirst()
+                .orElse(null);
+        return funcionMapper.toDTOFuncion(funcion);
     }
 
     public List<Funcion> buscarPeliculaPorIdPelicula(int peliculaID) {

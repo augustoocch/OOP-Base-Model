@@ -113,6 +113,7 @@ public class MenuPrincipal extends JFrame {
 	}
 
 	private void mostrarCamposVenderTicket() {
+		this.setVisible(false);
 		try{
 			VenderTicket venderTicket = new VenderTicket();
 			venderTicket.setVisible(true);

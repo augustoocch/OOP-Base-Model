@@ -62,7 +62,7 @@ public class VenderTicket extends JFrame {
         btnAceptar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (!valoresNulos()) {
-
+                    mostrarSeleccionarFuncion();
                 }
             }
         });
@@ -82,12 +82,17 @@ public class VenderTicket extends JFrame {
         contentPane.add(btnCancelar);
     }
 
-
-    private void mostrarMensajeExito(int size) {
-        JOptionPane
-                .showMessageDialog(this,
-                        "Resultados encontrados: " + size,
-                        "Exito", JOptionPane.INFORMATION_MESSAGE);
+    private void mostrarSeleccionarFuncion() {
+        this.setVisible(false);
+        try{
+            SeleccionarFuncion eleccion = new SeleccionarFuncion(
+                    boxPeliculas.getSelectedItem().toString(),
+                    boxTarjetaDescuento.getSelectedItem().toString());
+            eleccion.setVisible(true);
+        } catch (CinemaException e) {
+            mostrarNuevoAlertaDeError(e.getMessage());
+            volverAlMenuPrincipal();
+        }
     }
 
     private void mostrarNuevoAlertaDeError(String mensaje) {
