@@ -20,6 +20,7 @@ public class FuncionController {
     private static FuncionController instancia;
     private CineConfig config;
     private FuncionMapper funcionMapper;
+    private SucursalController sucursalController;
     private List<Sala> salas;
     private List<String> horarios;
 
@@ -27,9 +28,10 @@ public class FuncionController {
         funciones = new ArrayList<Funcion>();
         id = new AtomicInteger(0);
         config = CineConfig.getInstance();
+        sucursalController = SucursalController.obtenerInstancia();
         funcionMapper = new FuncionMapper();
-        salas = config.getTodasLasSalas();
         horarios = config.getListadoHorasCine();
+        salas = sucursalController.obtenerSalas();
     }
 
     public static FuncionController obtenerInstancia() {
@@ -38,12 +40,6 @@ public class FuncionController {
         }
         return instancia;
     }
-
-    public void ABM() {
-        // TODO implement here
-    }
-
-
 
     public List<FuncionDTO> getListaFuncionesPorFecha(Date fchFuncion) {
        List<Funcion> funcionList = funciones.stream()
@@ -64,8 +60,8 @@ public class FuncionController {
         }
         List<Entrada> entradas = new ArrayList<>();
         Funcion funcion = new Funcion(
-                funcionDTO.getPelicula(),
-                id.getAndIncrement(), funcionDTO.getHorario(),
+                id.getAndIncrement(),
+                funcionDTO.getPelicula(), funcionDTO.getHorario(),
                 funcionDTO.getFecha(), entradas,
                 funcionDTO.getSala(),
                 funcionDTO.getSala().getAsientos()
@@ -73,11 +69,12 @@ public class FuncionController {
         funciones.add(funcion);
     }
 
-    public List<Funcion> obtenerFuncionesPorNombrePelicula(String nombrePelicula) {
-        List<Funcion> funcionesDeLaPelicula = new ArrayList<>();
+    public List<FuncionDTO> obtenerFuncionesPorNombrePelicula(String nombrePelicula) {
+        List<FuncionDTO> funcionesDeLaPelicula = new ArrayList<>();
         for (Funcion funcion : funciones) {
             if (funcion.getPelicula().getNombrePelicula().equals(nombrePelicula)) {
-                funcionesDeLaPelicula.add(funcion);
+                FuncionDTO funcionFound = funcionMapper.toDTOFuncion(funcion);
+                funcionesDeLaPelicula.add(funcionFound);
             }
         }
         return funcionesDeLaPelicula;
@@ -92,34 +89,34 @@ public class FuncionController {
         return funcionMapper.toDTOFuncion(funcion);
     }
 
-    public List<Funcion> buscarPeliculaPorIdPelicula(int peliculaID) {
-        List<Funcion> funcionesDeLaPelicula = new ArrayList<>();
+    public List<FuncionDTO> buscarFuncionesPorIdPelicula(int peliculaID) {
+        List<FuncionDTO> funcionesDeLaPelicula = new ArrayList<>();
         for (Funcion funcion : funciones) {
             if (funcion.getPelicula().getPeliculaID() == peliculaID) {
-                funcionesDeLaPelicula.add(funcion);
+                FuncionDTO funcionFound = funcionMapper.toDTOFuncion(funcion);
+                funcionesDeLaPelicula.add(funcionFound);
             }
         }
         return funcionesDeLaPelicula;
     }
 
-    public List<Funcion> buscarFuncionPorGeneroPelicula(TipoGenero genero) {
-        List<Funcion> funcionesDeLaPelicula = new ArrayList<>();
+    public List<FuncionDTO> buscarFuncionPorGeneroPelicula(TipoGenero genero) {
+        List<FuncionDTO> funcionesDeLaPelicula = new ArrayList<>();
         for (Funcion funcion : funciones) {
             if (funcion.getPelicula().getGeneroID() == genero) {
-                funcionesDeLaPelicula.add(funcion);
+                FuncionDTO funcionFound = funcionMapper.toDTOFuncion(funcion);
+                funcionesDeLaPelicula.add(funcionFound);
             }
         }
-        return funciones;
+        return funcionesDeLaPelicula;
     }
 
     public Funcion buscarFuncionPorFechaYPelicula(Date fecha, String hora, String peliculaName) throws CinemaException {
-        Funcion funcionEncontrada = new Funcion();
         for (Funcion funcion : funciones) {
             if (funcion.getFecha().equals(fecha)
                     && funcion.getHorario().equals(hora)
                     && funcion.getPelicula().getNombrePelicula().equals(peliculaName)) {
-                funcionEncontrada = funcion;
-                return funcionEncontrada;
+                return funcion;
             }
         }
         throw new CinemaException(FUNCIONES_NO_ENCONTRADAS.getMessage(), FUNCIONES_NO_ENCONTRADAS.getCode());

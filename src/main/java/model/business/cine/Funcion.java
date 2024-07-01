@@ -12,8 +12,8 @@ import java.util.*;
 @Setter
 @AllArgsConstructor
 public class Funcion {
-    private Pelicula pelicula;
     private int funcionID;
+    private Pelicula pelicula;
     private String horario;
     private Date fecha;
     private List<Entrada> entradas;

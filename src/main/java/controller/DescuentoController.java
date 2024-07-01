@@ -1,6 +1,5 @@
 package controller;
 
-import config.CineConfig;
 import model.business.negocio.CondicionesDescuento;
 import model.constants.TipoTarjeta;
 
@@ -8,12 +7,10 @@ import java.util.*;
 
 public class DescuentoController {
 	private static DescuentoController instancia;
-	private List<CondicionesDescuento> descuentos;
-	private CineConfig config;
+	private CondicionesDescuento condicionesDescuento;
 	
     private DescuentoController() {
-		config = CineConfig.getInstance();
-    	descuentos = config.getCondicionesDescuento();
+    	condicionesDescuento = new CondicionesDescuento();
     }
 
 	public static DescuentoController obtenerInstancia() {
@@ -23,17 +20,8 @@ public class DescuentoController {
 		return instancia;
 	}
 
-	public List<CondicionesDescuento> obtenerDescuentos() {
-		return descuentos;
-	}
-
 	public float obtenerPorcentajeDescuento(TipoTarjeta tarjeta) {
-		CondicionesDescuento condicionesDescuento = new CondicionesDescuento();
 		return condicionesDescuento.getDescuento(tarjeta);
-	}
-
-	public TipoTarjeta obtenerTarjeta(String tarjeta) {
-		return TipoTarjeta.valueOf(tarjeta);
 	}
 
 	public List<String> obtenerTarjetas() {

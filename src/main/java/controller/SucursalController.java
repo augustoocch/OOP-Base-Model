@@ -26,6 +26,14 @@ public class SucursalController {
         return instancia;
     }
 
+    public List<Sala> obtenerSalas() {
+        List<Sala> salas = new ArrayList<>();
+        for (Sucursal sucursal : sucursalesListado) {
+            salas.addAll(sucursal.getSalas());
+        }
+        return salas;
+    }
+
     public Sala obtenerSalaPorDenominacion(String salaID) {
         return sucursalesListado.stream()
                 .flatMap(s -> s.getSalas().stream())

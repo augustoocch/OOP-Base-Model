@@ -150,8 +150,7 @@ public class RegistrarFuncion extends JFrame {
                     pelicula,
                     (String) horarios.getSelectedItem(),
                     model.getValue(),
-                    sala
-            );
+                    sala, 0, null, 0);
             funcionController.registrarFuncionPorGenero(funcionDTO);
             mostrarMensajeExito();
             volverAlMenuPrincipal();

@@ -50,7 +50,7 @@ public class SeleccionarFuncion extends JFrame {
     }
 
     public SeleccionarFuncion(String pelicula, String tipoTarjeta) throws CinemaException {
-        List<Funcion> funcionesList = funcionesController
+        List<FuncionDTO> funcionesList = funcionesController
                 .obtenerFuncionesPorNombrePelicula(pelicula);
         if (funcionesList.isEmpty()) {
             throw new CinemaException(NO_HAY_FUNCIONES.getMessage(), NO_HAY_FUNCIONES.getCode());
@@ -103,12 +103,12 @@ public class SeleccionarFuncion extends JFrame {
         contentPane.add(asientos);
     }
 
-    public void setContenido(List<Funcion> funcionesList) {
+    public void setContenido(List<FuncionDTO> funcionesList) {
         boxFunciones = new JComboBox<>();
         boxFunciones.setBounds(200, 200, 200, 20);
         contentPane.add(boxFunciones);
 
-        for (Funcion funcion : funcionesList) {
+        for (FuncionDTO funcion : funcionesList) {
             boxFunciones.addItem(funcion.getPelicula().getNombrePelicula() + " - " +
                     funcion.getFuncionID());
         }
@@ -131,7 +131,8 @@ public class SeleccionarFuncion extends JFrame {
                                 .toString()
                                 .split("-")[1];
                         int idFuncionInt = parseInt(idFuncion.trim());
-                        FuncionDTO funcion = funcionesController.obtenerFuncionPorId(idFuncionInt);
+                        FuncionDTO funcion = funcionesController
+                                .obtenerFuncionPorId(idFuncionInt);
 
                         VentaDTO ventaDTO = new VentaDTO();
                         TarjetaDescuento tarjeta = new TarjetaDescuento();

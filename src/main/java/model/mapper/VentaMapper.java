@@ -14,6 +14,18 @@ public class VentaMapper {
         funcionMapper = new FuncionMapper();
     }
 
+    public VentaDTO toVentaDTO(Venta model) {
+        FuncionDTO funcionDTO = funcionMapper.toDTOFuncion(model.getFuncion());
+        VentaDTO dto = new VentaDTO();
+        dto.setFuncionDTO(funcionDTO);
+        dto.setFchVenta(model.getFchVenta());
+        dto.setTarjetaDescuento(Objects.nonNull(model.getTarjetaDescuento())
+                ? model.getTarjetaDescuento()
+                : null);
+        dto.setAsientos(model.getAsientos());
+        return dto;
+    }
+
     public Venta toVentaModel(VentaDTO dto) {
         Funcion funcion = funcionMapper.toModelFuncion(dto.getFuncionDTO());
         Venta model = new Venta();

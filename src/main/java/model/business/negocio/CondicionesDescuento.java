@@ -11,13 +11,8 @@ import java.util.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class CondicionesDescuento {
-    private String idDescuento;
-    private float porcentaje;
-    private TipoTarjeta tipoTarjeta;
-    private List<TarjetaDescuento> TarjetaDescuento;
 
     public float getDescuento(TipoTarjeta tarjeta){
         float descuento = getDescuentoPorTarjeta(tarjeta);

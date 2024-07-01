@@ -5,8 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import model.business.cine.Sala;
+import model.business.pelicula.Entrada;
 import model.business.pelicula.Pelicula;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,4 +19,7 @@ public class FuncionDTO {
     private String horario;
     private Date fecha;
     private Sala sala;
+    private int funcionID;
+    private List<Entrada> entradas;
+    private int asientosDisponibles;
 }

@@ -6,9 +6,10 @@ import lombok.Setter;
 import model.business.negocio.Venta;
 import model.business.cine.Funcion;
 import model.business.pelicula.Entrada;
-import model.constants.TipoGenero;
+import model.dto.FuncionDTO;
 import model.dto.VentaDTO;
 import model.exception.CinemaException;
+import model.mapper.FuncionMapper;
 import model.mapper.VentaMapper;
 
 import java.util.*;
@@ -24,7 +25,7 @@ public class VentaController {
     private VentaMapper ventaMapper;
     private DescuentoController descuentoController;
     private final float PRECIO_ENTRADA;
-
+    private FuncionMapper funcionMapper;
 	
     private VentaController(){
         funcionController = FuncionController.obtenerInstancia();
@@ -33,6 +34,7 @@ public class VentaController {
         config = CineConfig.getInstance();
         ventaMapper = new VentaMapper();
         PRECIO_ENTRADA = config.getPrecioEntrada();
+        funcionMapper = new FuncionMapper();
     }
 
     public static VentaController obtenerInstancia() {
@@ -43,13 +45,13 @@ public class VentaController {
     }
 
     public float recaudacionPorPelicula(int peliculaID) {
-        List<Funcion> funciones = funcionController.buscarPeliculaPorIdPelicula(peliculaID);
+        List<FuncionDTO> funciones = funcionController.buscarFuncionesPorIdPelicula(peliculaID);
         if(funciones.isEmpty()){
             return 0;
         }
         float totalrecuadado = 0.0f;
-        for (Funcion funcion:funciones) {
-                List<Entrada> e =funcion.getEntradas();
+        for (FuncionDTO funcion:funciones) {
+                List<Entrada> e = funcion.getEntradas();
                 if(Objects.nonNull(e)){
                     for (Entrada entrada:e) {
                         totalrecuadado = totalrecuadado + entrada.getPrecio();
@@ -57,21 +59,6 @@ public class VentaController {
                 }
         }
     	return totalrecuadado;
-    }
-
-    public List<VentaDTO> funcionesVendidasPorGenero(TipoGenero genero) throws CinemaException {
-        List<VentaDTO> ventaDtos = new ArrayList<>();
-        List<Funcion> funciones = funcionController.buscarFuncionPorGeneroPelicula(genero);
-        if(funciones.isEmpty()){
-            throw new CinemaException(FUNCIONES_NO_ENCONTRADAS.getMessage(), FUNCIONES_NO_ENCONTRADAS.getCode());
-        }
-        for (Funcion funcion:funciones) {
-            Venta venta = buscarVentaPorFuncion(funcion);
-            if(!Objects.isNull(venta)){
-                ventaDtos.add(modelVentaToDto(venta));
-            }
-        }
-        return ventaDtos;
     }
 
     public void registrarVenta(VentaDTO venta) throws CinemaException {
@@ -124,19 +111,6 @@ public class VentaController {
                 }
             }
         }
-    }
-
-    private VentaDTO modelVentaToDto(Venta venta){
-        return modelVentaToDto(venta);
-    }
-
-    private  Venta buscarVentaPorFuncion(Funcion funcion){
-        for (Venta venta:getVentas()) {
-            if(Objects.equals(funcion,venta.getFuncion())){
-                return venta;
-            }
-        }
-        return null;
     }
 
     public static void eliminarInstancia(){

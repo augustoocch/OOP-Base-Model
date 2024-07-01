@@ -14,5 +14,4 @@ public class TarjetaDescuento {
     private int tarjetaID;
     private TipoTarjeta tipoTarjeta;
     private String numeroTarjeta;
-
 }

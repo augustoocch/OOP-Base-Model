@@ -19,5 +19,4 @@ public class VentaDTO {
     private List<Integer> asientosSeleccionados;
     private Date fchVenta;
     private TarjetaDescuento tarjetaDescuento;
-
 }
