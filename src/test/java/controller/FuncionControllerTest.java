@@ -1,6 +1,5 @@
 package controller;
 
-import model.business.cine.Funcion;
 import model.business.cine.Sala;
 import model.business.pelicula.Pelicula;
 import model.constants.TipoGenero;
@@ -55,7 +54,7 @@ public class FuncionControllerTest {
         FuncionDTO funcionDTO = new FuncionDTO(
                 obtenerPelicula(),
                 "20:00", fecha,
-                obtenerSala());
+                obtenerSala(),0, null, 0);
         return funcionDTO;
     }
 

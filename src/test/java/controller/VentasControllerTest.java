@@ -109,7 +109,7 @@ public class VentasControllerTest {
         FuncionDTO funcionDTO = new FuncionDTO(
                 obtenerPelicula(),
                 "20:00", fecha,
-                obtenerSala());
+                obtenerSala(),0, null, 0);
         return funcionDTO;
     }
 
@@ -119,7 +119,7 @@ public class VentasControllerTest {
         FuncionDTO funcionDTO = new FuncionDTO(
                 obtenerPelicula(),
                 "16:00", fecha,
-                obtenerSala());
+                obtenerSala(),0, null, 0);
         return funcionDTO;
     }
 
