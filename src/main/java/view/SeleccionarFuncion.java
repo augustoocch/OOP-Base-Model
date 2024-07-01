@@ -6,6 +6,7 @@ import controller.PeliculasController;
 import controller.VentasController;
 import model.business.cine.Funcion;
 import model.business.negocio.TarjetaDescuento;
+import model.constants.TipoTarjeta;
 import model.dto.FuncionDTO;
 import model.dto.VentaDTO;
 import model.exception.CinemaException;
@@ -28,12 +29,11 @@ public class SeleccionarFuncion extends JFrame {
     private JPanel contentPane;
     private JTextField idTarjeta;
     private JTextField numeroTarjeta;
-    private List<String> funciones;
     private JTextField asientos;
     private JComboBox<String> boxFunciones;
-    private final PeliculasController peliculasController = PeliculasController.obtenerInstancia();
+    private boolean tarjetaValida = false;
+    private String tipoTarjeta;
     private final VentasController ventasController = VentasController.obtenerInstancia();
-    private final DescuentoController descuentoController = DescuentoController.obtenerInstancia();
     private final FuncionController funcionesController = FuncionController.obtenerInstancia();
 
 
@@ -51,24 +51,12 @@ public class SeleccionarFuncion extends JFrame {
     }
 
     public SeleccionarFuncion(String pelicula, String tipoTarjeta) throws CinemaException {
-        funciones = new ArrayList<>();
         List<Funcion> funcionesList = funcionesController
                 .obtenerFuncionesPorNombrePelicula(pelicula);
         if (funcionesList.isEmpty()) {
             throw new CinemaException(NO_HAY_FUNCIONES.getMessage(), NO_HAY_FUNCIONES.getCode());
         }
-        funciones = funcionesList
-                .stream()
-                .map(Funcion::toString).toList();
-        setLabels(tipoTarjeta);
-        setContenido(funcionesList);
 
-        botonAceptar();
-        botonCancelar();
-    }
-
-
-    public void setLabels(String tipoTarjeta) {
         setTitle("Selecionar Funcion");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1000, 700);
@@ -78,7 +66,18 @@ public class SeleccionarFuncion extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
+        setLabels(tipoTarjeta);
+        setContenido(funcionesList);
+
+        botonAceptar();
+        botonCancelar();
+    }
+
+
+    public void setLabels(String tipoTarjeta) {
+        this.tipoTarjeta = tipoTarjeta;
         if(!tipoTarjeta.equals("Sin Descuento")) {
+            tarjetaValida = true;
             JLabel lblTarjetId = new JLabel("ID Tarjeta");
             lblTarjetId.setBounds(100, 100, 100, 20);
             contentPane.add(lblTarjetId);
@@ -101,7 +100,7 @@ public class SeleccionarFuncion extends JFrame {
         contentPane.add(lblFunciones);
 
         JLabel asientos = new JLabel("Asientos (Separados por coma)");
-        asientos.setBounds(100, 250, 100, 20);
+        asientos.setBounds(100, 250, 250, 20);
         contentPane.add(asientos);
     }
 
@@ -116,7 +115,7 @@ public class SeleccionarFuncion extends JFrame {
         }
 
         asientos = new JTextField();
-        asientos.setBounds(200, 250, 200, 20);
+        asientos.setBounds(200, 300, 200, 20);
         contentPane.add(asientos);
     }
 
@@ -135,21 +134,26 @@ public class SeleccionarFuncion extends JFrame {
                         int idFuncionInt = parseInt(idFuncion.trim());
                         FuncionDTO funcion = funcionesController.obtenerFuncionPorId(idFuncionInt);
 
+                        VentaDTO ventaDTO = new VentaDTO();
                         TarjetaDescuento tarjeta = new TarjetaDescuento();
-                        tarjeta.setNumeroTarjeta(numeroTarjeta.getText());
-                        tarjeta.setTarjetaID(parseInt(idTarjeta.getText()));
-                        //validar tarjeta
-
+                        if (tarjetaValida) {
+                            tarjeta.setNumeroTarjeta(numeroTarjeta.getText());
+                            tarjeta.setTarjetaID(parseInt(idTarjeta.getText()));
+                            tarjeta.setTipoTarjeta(TipoTarjeta.valueOf(tipoTarjeta));
+                            ventaDTO.setTarjetaDescuento(tarjeta);
+                        } else {
+                            tarjeta.setNumeroTarjeta(null);
+                            tarjeta.setTarjetaID(0);
+                            tarjeta.setTipoTarjeta(TipoTarjeta.SIN_DESCUENTO);
+                            ventaDTO.setTarjetaDescuento(tarjeta);
+                        }
                         List<Integer> asientosSeleccionados = obtenerAsientosSeleccionados(asientos.getText());
                         int cantidadDeAsientos = asientosSeleccionados.size();
 
-                        VentaDTO ventaDTO = new VentaDTO();
                         ventaDTO.setFuncionDTO(funcion);
                         ventaDTO.setAsientosSeleccionados(asientosSeleccionados);
                         ventaDTO.setFchVenta(Date.from(Instant.now()));
-                        ventaDTO.setTarjetaDescuento(tarjeta);
                         ventaDTO.setAsientos(cantidadDeAsientos);
-                        ventaDTO.setTarjetaDescuento();
 
                         ventasController.registrarVenta(ventaDTO);
                         mostrarMensajeExito();
@@ -202,9 +206,16 @@ public class SeleccionarFuncion extends JFrame {
 
 
     private boolean valoresNulos() {
-        if (idTarjeta.getText().isEmpty() || numeroTarjeta.getText().isEmpty()) {
-            mostrarNuevoAlertaDeError(VALORES_NULOS.getMessage());
-            return true;
+        if(tarjetaValida){
+            if (idTarjeta.getText().isEmpty() || numeroTarjeta.getText().isEmpty()) {
+                mostrarNuevoAlertaDeError(VALORES_NULOS.getMessage());
+                return true;
+            }
+        } else {
+            if (asientos.getText().isEmpty()) {
+                mostrarNuevoAlertaDeError(VALORES_NULOS.getMessage());
+                return true;
+            }
         }
         return false;
     }
@@ -214,8 +225,4 @@ public class SeleccionarFuncion extends JFrame {
         MenuPrincipal menuPrincipal = new MenuPrincipal();
         menuPrincipal.setVisible(true);
     }
-
-
-
-
 }

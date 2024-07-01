@@ -49,14 +49,12 @@ public class VentasController {
         }
         float totalrecuadado = 0.0f;
         for (Funcion funcion:funciones) {
-            if (funcion.getPelicula().getPeliculaID() == peliculaID){
                 List<Entrada> e =funcion.getEntradas();
                 if(Objects.nonNull(e)){
                     for (Entrada entrada:e) {
                         totalrecuadado = totalrecuadado + entrada.getPrecio();
                     }
                 }
-            }
         }
     	return totalrecuadado;
     }
@@ -119,10 +117,11 @@ public class VentasController {
 
     private void checkAsientoYaSeleccionado(Funcion funcion, VentaDTO venta) throws CinemaException {
         for (int i = 0; i < venta.getAsientos(); i++) {
-            Entrada e = funcion.getEntradas().get(i);
-            Integer  asiento = venta.getAsientosSeleccionados().get(i);
-            if(e.getNroAsiento() == asiento) {
-                throw new CinemaException(ASIENTO_YA_OCUPADO.getMessage(), ASIENTO_YA_OCUPADO.getCode());
+            Integer asiento = venta.getAsientosSeleccionados().get(i);
+            for (Entrada e : funcion.getEntradas()) {
+                if (e.getNroAsiento() == asiento) {
+                    throw new CinemaException(ASIENTO_YA_OCUPADO.getMessage(), ASIENTO_YA_OCUPADO.getCode());
+                }
             }
         }
     }

@@ -21,18 +21,4 @@ public class Funcion {
     private int asientosDisponibles;
 
     public Funcion() {}
-
-
-    public int getSalaID() {
-        // TODO implement here
-        return 0;
-    }
-
-    public int getPeliculaID() {
-        // TODO implement here
-        if(Objects.nonNull(getPelicula().getPeliculaID())){
-
-        }
-        return 0;
-    }
 }

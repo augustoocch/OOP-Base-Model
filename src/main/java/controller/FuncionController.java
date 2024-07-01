@@ -95,7 +95,7 @@ public class FuncionController {
     public List<Funcion> buscarPeliculaPorIdPelicula(int peliculaID) {
         List<Funcion> funcionesDeLaPelicula = new ArrayList<>();
         for (Funcion funcion : funciones) {
-            if (funcion.getPeliculaID() == peliculaID) {
+            if (funcion.getPelicula().getPeliculaID() == peliculaID) {
                 funcionesDeLaPelicula.add(funcion);
             }
         }

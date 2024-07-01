@@ -16,6 +16,8 @@ public class MenuPrincipal extends JFrame {
 	JButton btnCrearNuevaFuncion;
 	JButton btnRegistrarPelicula;
 	JButton btnConsultarPelicula;
+	JButton btnVenderTicket;
+	JButton btnConsultarRecaudacion;
 	private JPanel contentPane;
 
 	public static void main(String[] args) {
@@ -33,7 +35,7 @@ public class MenuPrincipal extends JFrame {
 
 	public MenuPrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -43,6 +45,7 @@ public class MenuPrincipal extends JFrame {
 		botonRegistrarPelicula();
 		botonConsultarPelicula();
 		botonVenderTicket();
+		botonConsultarRecaudacion();
 	}
 
 	private void botonRegistrarFuncion() {
@@ -79,7 +82,7 @@ public class MenuPrincipal extends JFrame {
 	}
 
 	private void botonVenderTicket() {
-		JButton btnVenderTicket = new JButton("Vender Ticket");
+		btnVenderTicket = new JButton("Vender Ticket");
 		btnVenderTicket.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostrarCamposVenderTicket();
@@ -87,6 +90,17 @@ public class MenuPrincipal extends JFrame {
 		});
 		btnVenderTicket.setBounds(107, 230, 210, 23);
 		contentPane.add(btnVenderTicket);
+	}
+
+	private void botonConsultarRecaudacion() {
+		btnConsultarRecaudacion= new JButton("Consultar Recaudacion");
+		btnConsultarRecaudacion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mostrarCamposConsultarRecaudacion();
+			}
+		});
+		btnConsultarRecaudacion.setBounds(107,282, 210, 23);
+		contentPane.add(btnConsultarRecaudacion);
 	}
 
 	private void mostrarCamposNuevaFuncion() {
@@ -117,6 +131,17 @@ public class MenuPrincipal extends JFrame {
 		try{
 			VenderTicket venderTicket = new VenderTicket();
 			venderTicket.setVisible(true);
+		} catch (CinemaException e) {
+			mostrarNuevoAlertaDeError(e.getMessage());
+			volverAlMenuPrincipal();
+		}
+	}
+
+	private void mostrarCamposConsultarRecaudacion() {
+		try{
+			this.setVisible(false);
+			ConsultarRecaudacion consultarRecaudacion = new ConsultarRecaudacion();
+			consultarRecaudacion.setVisible(true);
 		} catch (CinemaException e) {
 			mostrarNuevoAlertaDeError(e.getMessage());
 			volverAlMenuPrincipal();

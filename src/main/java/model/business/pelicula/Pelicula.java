@@ -22,9 +22,4 @@ public class Pelicula {
     private String director;
     private List<String> actores;
     private TipoProyeccion tipo;
-
-    public int getPeliculaID() {
-        // TODO implement here
-        return 0;
-    }
 }

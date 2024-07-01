@@ -5,16 +5,13 @@ import model.business.negocio.Venta;
 import model.dto.FuncionDTO;
 import model.dto.VentaDTO;
 
+import java.util.Objects;
+
 public class VentaMapper {
     private FuncionMapper funcionMapper;
 
     public VentaMapper() {
         funcionMapper = new FuncionMapper();
-    }
-
-    public VentaDTO toVentaDto(FuncionDTO funcionDTO) {
-        VentaDTO dto = new VentaDTO();
-        return dto;
     }
 
     public Venta toVentaModel(VentaDTO dto) {
@@ -23,7 +20,9 @@ public class VentaMapper {
         model.setCombos(dto.getCombos());
         model.setFuncion(funcion);
         model.setFchVenta(dto.getFchVenta());
-        model.setTarjetaDescuento(dto.getTarjetaDescuento());
+        model.setTarjetaDescuento(Objects.nonNull(dto.getTarjetaDescuento())
+                ? dto.getTarjetaDescuento()
+                : null);
         model.setAsientos(dto.getAsientos());
         return model;
     }

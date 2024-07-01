@@ -29,9 +29,9 @@ public class CondicionesDescuento {
 
     public static float getDescuentoPorTarjeta(TipoTarjeta tipoTarjeta){
         switch (tipoTarjeta){
-            case PAMI -> { return 0.25f; }
+            case PAMI -> { return 0.12f; }
             case UADE,MovieClub ->{ return 0.15f;}
-            case LaNacion,Clarin365 -> {return 0.5f;}
+            case LaNacion,Clarin365 -> {return 0.18f;}
             default -> {return 0.0f;}
         }
     }

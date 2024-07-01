@@ -51,6 +51,16 @@ public class RegistrarFuncion extends JFrame {
 
     public RegistrarFuncion() throws CinemaException {
         List<String> peliculasList = validarPeliculas();
+
+        setTitle("Registrar Funcion");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 1000, 700);
+
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+
         setLabels();
         setContenido(peliculasList);
     }
@@ -64,15 +74,6 @@ public class RegistrarFuncion extends JFrame {
     }
 
     private void setLabels() {
-        setTitle("Registrar Funcion");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1000, 700);
-
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
-        contentPane.setLayout(null);
-
         JLabel lblPelicula = new JLabel("Pelicula");
         lblPelicula.setBounds(112, 50, 200, 14);
         contentPane.add(lblPelicula);

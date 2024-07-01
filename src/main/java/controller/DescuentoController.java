@@ -40,7 +40,9 @@ public class DescuentoController {
 		TipoTarjeta[] tarjetas = TipoTarjeta.values();
 		List<String> tarjetasString = new ArrayList<>();
 		for (TipoTarjeta tarjeta : tarjetas) {
-			tarjetasString.add(tarjeta.name());
+			if(tarjeta != TipoTarjeta.SIN_DESCUENTO){
+				tarjetasString.add(tarjeta.name());
+			}
 		}
 		return tarjetasString;
 	}

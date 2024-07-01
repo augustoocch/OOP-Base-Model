@@ -147,8 +147,8 @@ public class RegistrarPelicula extends JFrame {
 		lblNombre.setBounds(10, 70, 150, 14);
 		contentPane.add(lblNombre);
 
-		JLabel lblDuracion = new JLabel("Duracion:");
-		lblDuracion.setBounds(10, 130, 150, 14);
+		JLabel lblDuracion = new JLabel("Duracion en minutos:");
+		lblDuracion.setBounds(10, 130, 200, 14);
 		contentPane.add(lblDuracion);
 
 		JLabel lblDirector = new JLabel("Director:");

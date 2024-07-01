@@ -24,7 +24,6 @@ public class VenderTicket extends JFrame {
     private JComboBox<String> boxTarjetaDescuento;
     private List<String> peliculasList;
     private final PeliculasController peliculasController = PeliculasController.obtenerInstancia();
-    private final VentasController ventasController = VentasController.obtenerInstancia();
     private final DescuentoController descuentoController = DescuentoController.obtenerInstancia();
 
 
@@ -44,6 +43,16 @@ public class VenderTicket extends JFrame {
     public VenderTicket() throws CinemaException {
         peliculasList = new ArrayList<>();
         peliculasList = validarPeliculas();
+
+        setTitle("Registrar Venta");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 600, 600);
+
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+
         setLabels();
         setContenido(peliculasList);
     }
@@ -116,15 +125,6 @@ public class VenderTicket extends JFrame {
     }
 
     private void setLabels(){
-        setTitle("Registrar Venta");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 600, 600);
-
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
-        contentPane.setLayout(null);
-
         JLabel lblPelicula = new JLabel("Pelicula");
         lblPelicula.setBounds(50, 50, 100, 23);
         contentPane.add(lblPelicula);
