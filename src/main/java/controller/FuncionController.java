@@ -139,4 +139,8 @@ public class FuncionController {
                         && f.getHorario().equals(funcionDTO.getHorario())
                         && f.getSala().equals(funcionDTO.getSala()));
     }
+
+    public static void eliminarInstancia(){
+        instancia = null;
+    }
 }

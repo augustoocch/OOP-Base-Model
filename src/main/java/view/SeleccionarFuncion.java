@@ -162,7 +162,7 @@ public class SeleccionarFuncion extends JFrame {
                 } catch (CinemaException ex) {
                     mostrarNuevoAlertaDeError(ex.getMessage());
                 } catch (NumberFormatException ex) {
-                    mostrarNuevoAlertaDeError(DURACION_INVALIDA.getMessage());
+                    mostrarNuevoAlertaDeError(ASIENTOS_INVALIDOS.getMessage());
                 }
             }
         });

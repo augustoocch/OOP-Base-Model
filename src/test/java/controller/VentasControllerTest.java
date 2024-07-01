@@ -1,8 +1,10 @@
 package controller;
 
 import model.business.cine.Sala;
+import model.business.negocio.TarjetaDescuento;
 import model.business.pelicula.Pelicula;
 import model.constants.TipoGenero;
+import model.constants.TipoTarjeta;
 import model.dto.FuncionDTO;
 import model.dto.VentaDTO;
 import model.exception.CinemaException;
@@ -17,12 +19,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class VentasControllerTest {
-
     private VentasController ventasController;
-
 
     @BeforeEach
     public void setUp() {
+        FuncionController.eliminarInstancia();
+        VentasController.eliminarInstancia();
         ventasController = VentasController.obtenerInstancia();
     }
 
@@ -45,7 +47,11 @@ public class VentasControllerTest {
         FuncionDTO funcionDTO = obtenerFuncionDTO();
         FuncionController.obtenerInstancia().registrarFuncionPorGenero(funcionDTO);
         ventasController.registrarVenta(crearVentaDTO(funcionDTO));
-        assertEquals(1000, ventasController.recaudacionPorPelicula(0));
+        if(LocalDate.now().getDayOfWeek().getValue() <= 3){
+            assertEquals(380, ventasController.recaudacionPorPelicula(0));
+        } else {
+            assertEquals(1000, ventasController.recaudacionPorPelicula(0));
+        }
     }
 
     @Test
@@ -58,7 +64,11 @@ public class VentasControllerTest {
 
         ventasController.registrarVenta(crearVentaDTO(funcionDTO));
         ventasController.registrarVenta(crearVentaDTOII(funcionDTOII));
-        assertEquals(2000, ventasController.recaudacionPorPelicula(0));
+        if(LocalDate.now().getDayOfWeek().getValue() <= 3){
+            assertEquals(880, ventasController.recaudacionPorPelicula(0));
+        } else {
+            assertEquals(2000, ventasController.recaudacionPorPelicula(0));
+        }
     }
 
     @Test
@@ -77,8 +87,7 @@ public class VentasControllerTest {
         ventaDTO.setFuncionDTO(funcionDTO);
         ventaDTO.setAsientos(5);
         ventaDTO.setAsientosSeleccionados(List.of(1, 2, 3, 4, 5));
-        ventaDTO.setCombos(null);
-        ventaDTO.setTarjetaDescuento(null);
+        ventaDTO.setTarjetaDescuento(tarjetaDescuento());
         return ventaDTO;
     }
 
@@ -89,8 +98,7 @@ public class VentasControllerTest {
         ventaDTO.setFuncionDTO(funcionDTO);
         ventaDTO.setAsientos(5);
         ventaDTO.setAsientosSeleccionados(List.of(10, 11, 12, 13, 14));
-        ventaDTO.setCombos(null);
-        ventaDTO.setTarjetaDescuento(null);
+        ventaDTO.setTarjetaDescuento(tarjetaDescuentoNull());
         return ventaDTO;
     }
 
@@ -124,6 +132,22 @@ public class VentasControllerTest {
         pelicula.setGeneroID(TipoGenero.Drama);
         pelicula.setDuracionEnMinutos(195);
         return pelicula;
+    }
+
+    private TarjetaDescuento tarjetaDescuentoNull() {
+        TarjetaDescuento tarjeta = new TarjetaDescuento();
+        tarjeta.setNumeroTarjeta(null);
+        tarjeta.setTarjetaID(0);
+        tarjeta.setTipoTarjeta(TipoTarjeta.SIN_DESCUENTO);
+        return tarjeta;
+    }
+
+    private TarjetaDescuento tarjetaDescuento() {
+        TarjetaDescuento tarjeta = new TarjetaDescuento();
+        tarjeta.setNumeroTarjeta("356");
+        tarjeta.setTarjetaID(54);
+        tarjeta.setTipoTarjeta(TipoTarjeta.PAMI);
+        return tarjeta;
     }
 
     private Sala obtenerSala() {

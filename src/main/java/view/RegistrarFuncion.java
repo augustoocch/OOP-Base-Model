@@ -107,7 +107,7 @@ public class RegistrarFuncion extends JFrame {
 
         LocalDate currentDate = LocalDate.now();
         model = new UtilDateModel();
-        model.setDate(currentDate.getYear(), currentDate.getMonthValue(), currentDate.getDayOfMonth());
+        model.setDate(currentDate.getYear(), currentDate.getMonthValue(), currentDate.getDayOfMonth() + 1);
         model.setSelected(true);
 
         datePanel = new JDatePanelImpl(model, new Properties());

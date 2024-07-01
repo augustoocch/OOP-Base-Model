@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import model.business.cine.Funcion;
-import model.business.negocio.Combo;
 import model.business.negocio.TarjetaDescuento;
 
 import java.util.Date;
@@ -20,7 +18,6 @@ public class VentaDTO {
     private Integer asientos;
     private List<Integer> asientosSeleccionados;
     private Date fchVenta;
-    private List<Combo> combos;
     private TarjetaDescuento tarjetaDescuento;
 
 }

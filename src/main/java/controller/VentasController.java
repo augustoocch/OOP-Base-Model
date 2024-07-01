@@ -138,4 +138,8 @@ public class VentasController {
         }
         return null;
     }
+
+    public static void eliminarInstancia(){
+        instancia = null;
+    }
 }

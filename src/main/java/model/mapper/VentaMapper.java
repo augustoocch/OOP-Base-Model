@@ -17,7 +17,6 @@ public class VentaMapper {
     public Venta toVentaModel(VentaDTO dto) {
         Funcion funcion = funcionMapper.toModelFuncion(dto.getFuncionDTO());
         Venta model = new Venta();
-        model.setCombos(dto.getCombos());
         model.setFuncion(funcion);
         model.setFchVenta(dto.getFchVenta());
         model.setTarjetaDescuento(Objects.nonNull(dto.getTarjetaDescuento())

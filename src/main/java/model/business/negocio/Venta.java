@@ -17,7 +17,6 @@ public class Venta {
     private int ventaID;
     private Integer asientos;
     private Date fchVenta;
-    private List<Combo> combos;
     private Funcion funcion;
     private TarjetaDescuento tarjetaDescuento;
 }

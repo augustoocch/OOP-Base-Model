@@ -49,8 +49,6 @@ public class FuncionControllerTest {
         }
     }
 
-
-
     private FuncionDTO obtenerFuncionDTO() {
         LocalDate localDate = LocalDate.now().plusMonths(1);
         Date fecha = java.sql.Date.valueOf(localDate);

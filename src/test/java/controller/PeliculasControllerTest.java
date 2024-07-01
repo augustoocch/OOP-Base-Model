@@ -17,6 +17,7 @@ public class PeliculasControllerTest {
 
     @BeforeEach
     public void setUp() {
+        PeliculasController.eliminarInstancia();
         peliculasController = PeliculasController.obtenerInstancia();
     }
 

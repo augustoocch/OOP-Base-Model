@@ -72,4 +72,8 @@ public class PeliculasController {
         return actores;
     }
 
+    public static void eliminarInstancia(){
+        instancia = null;
+    }
+
 }
