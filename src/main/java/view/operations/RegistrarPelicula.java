@@ -1,4 +1,4 @@
-package view;
+package view.operations;
 
 import controller.DescuentoController;
 import controller.PeliculasController;
@@ -6,6 +6,7 @@ import model.constants.TipoGenero;
 import model.constants.TipoProyeccion;
 import model.dto.PeliculaDTO;
 import model.exception.CinemaException;
+import view.MenuPrincipal;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

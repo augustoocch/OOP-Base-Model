@@ -1,8 +1,6 @@
-package view;
+package view.operations;
 
-import controller.DescuentoController;
 import controller.FuncionController;
-import controller.PeliculasController;
 import controller.VentasController;
 import model.business.cine.Funcion;
 import model.business.negocio.TarjetaDescuento;
@@ -10,6 +8,7 @@ import model.constants.TipoTarjeta;
 import model.dto.FuncionDTO;
 import model.dto.VentaDTO;
 import model.exception.CinemaException;
+import view.MenuPrincipal;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

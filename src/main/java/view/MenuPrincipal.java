@@ -1,6 +1,7 @@
 package view;
 
 import model.exception.CinemaException;
+import view.operations.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

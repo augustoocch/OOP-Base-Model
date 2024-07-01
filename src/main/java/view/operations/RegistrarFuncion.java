@@ -1,4 +1,4 @@
-package view;
+package view.operations;
 
 import controller.FuncionController;
 import controller.PeliculasController;
@@ -10,6 +10,7 @@ import model.exception.CinemaException;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
+import view.MenuPrincipal;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

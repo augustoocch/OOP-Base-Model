@@ -1,8 +1,9 @@
-package view;
+package view.operations;
 
 import controller.PeliculasController;
 import model.business.pelicula.Pelicula;
 import model.constants.TipoGenero;
+import view.MenuPrincipal;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

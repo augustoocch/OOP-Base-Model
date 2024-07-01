@@ -1,10 +1,10 @@
-package view;
+package view.operations;
 
 import controller.DescuentoController;
 import controller.PeliculasController;
-import controller.VentasController;
 import model.business.pelicula.Pelicula;
 import model.exception.CinemaException;
+import view.MenuPrincipal;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
