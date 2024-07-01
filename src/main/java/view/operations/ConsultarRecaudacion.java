@@ -1,7 +1,7 @@
 package view.operations;
 
-import controller.PeliculasController;
-import controller.VentasController;
+import controller.PeliculaController;
+import controller.VentaController;
 import model.business.pelicula.Pelicula;
 import model.exception.CinemaException;
 import view.MenuPrincipal;
@@ -20,8 +20,8 @@ public class ConsultarRecaudacion extends JFrame {
     private JPanel contentPane;
     private JComboBox<String> boxDePeliculasEncontradas;
 
-    private final PeliculasController peliculasController = PeliculasController.obtenerInstancia();
-    private final VentasController ventasController = VentasController.obtenerInstancia();
+    private final PeliculaController peliculasController = PeliculaController.obtenerInstancia();
+    private final VentaController ventasController = VentaController.obtenerInstancia();
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {

@@ -1,7 +1,7 @@
 package view.operations;
 
 import controller.DescuentoController;
-import controller.PeliculasController;
+import controller.PeliculaController;
 import model.business.pelicula.Pelicula;
 import model.exception.CinemaException;
 import view.MenuPrincipal;
@@ -23,7 +23,7 @@ public class VenderTicket extends JFrame {
     private JComboBox<String> boxPeliculas;
     private JComboBox<String> boxTarjetaDescuento;
     private List<String> peliculasList;
-    private final PeliculasController peliculasController = PeliculasController.obtenerInstancia();
+    private final PeliculaController peliculasController = PeliculaController.obtenerInstancia();
     private final DescuentoController descuentoController = DescuentoController.obtenerInstancia();
 
 

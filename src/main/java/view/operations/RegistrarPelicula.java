@@ -1,7 +1,7 @@
 package view.operations;
 
 import controller.DescuentoController;
-import controller.PeliculasController;
+import controller.PeliculaController;
 import model.constants.TipoGenero;
 import model.constants.TipoProyeccion;
 import model.dto.PeliculaDTO;
@@ -30,7 +30,7 @@ public class RegistrarPelicula extends JFrame {
 	private List<JToggleButton> actorButtons;
 	private JPanel actorPanel;
 	private DescuentoController descuentoController = DescuentoController.obtenerInstancia();
-	private PeliculasController peliculaController = PeliculasController.obtenerInstancia();
+	private PeliculaController peliculaController = PeliculaController.obtenerInstancia();
 
 
 	public static void main(String[] args) {
@@ -72,7 +72,7 @@ public class RegistrarPelicula extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if(valoresNulos()) return;
-					PeliculasController controller = PeliculasController.obtenerInstancia();
+					PeliculaController controller = PeliculaController.obtenerInstancia();
 					PeliculaDTO peliculaDTO = new PeliculaDTO();
 					peliculaDTO.setGeneroID((TipoGenero) generoID.getSelectedItem());
 					peliculaDTO.setNombrePelicula(nombre.getText());

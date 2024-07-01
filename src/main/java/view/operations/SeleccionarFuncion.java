@@ -1,7 +1,7 @@
 package view.operations;
 
 import controller.FuncionController;
-import controller.VentasController;
+import controller.VentaController;
 import model.business.cine.Funcion;
 import model.business.negocio.TarjetaDescuento;
 import model.constants.TipoTarjeta;
@@ -32,7 +32,7 @@ public class SeleccionarFuncion extends JFrame {
     private JComboBox<String> boxFunciones;
     private boolean tarjetaValida = false;
     private String tipoTarjeta;
-    private final VentasController ventasController = VentasController.obtenerInstancia();
+    private final VentaController ventasController = VentaController.obtenerInstancia();
     private final FuncionController funcionesController = FuncionController.obtenerInstancia();
 
 

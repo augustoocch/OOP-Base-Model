@@ -17,16 +17,16 @@ import static model.exception.ErrorCode.PELICULA_YA_EXISTENTE;
 
 @Getter
 @Setter
-public class PeliculasController {
+public class PeliculaController {
 
     private AtomicInteger id;
 	private List<Pelicula> peliculas;
-    private static PeliculasController instancia;
+    private static PeliculaController instancia;
     private PeliculaMapper peliculaMapper;
     private CineConfig config;
     private List<String> actores;
 	
-    private PeliculasController() {
+    private PeliculaController() {
     	peliculas= new ArrayList<Pelicula>();
         id = new AtomicInteger(0);
         peliculaMapper = new PeliculaMapper();
@@ -34,9 +34,9 @@ public class PeliculasController {
         actores = config.getListaActores();
     }
 
-    public static PeliculasController obtenerInstancia() {
+    public static PeliculaController obtenerInstancia() {
         if(instancia == null){
-            instancia = new PeliculasController();
+            instancia = new PeliculaController();
         }
         return instancia;
     }

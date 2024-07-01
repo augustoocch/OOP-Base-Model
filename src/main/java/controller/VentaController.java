@@ -16,9 +16,9 @@ import static model.exception.ErrorCode.*;
 
 @Getter
 @Setter
-public class VentasController {
+public class VentaController {
     private List<Venta> ventas;
-    private static VentasController instancia;
+    private static VentaController instancia;
     private FuncionController funcionController;
     private CineConfig config;
     private VentaMapper ventaMapper;
@@ -26,7 +26,7 @@ public class VentasController {
     private final float PRECIO_ENTRADA;
 
 	
-    private VentasController(){
+    private VentaController(){
         funcionController = FuncionController.obtenerInstancia();
         descuentoController = DescuentoController.obtenerInstancia();
         ventas = new ArrayList<Venta>();
@@ -35,9 +35,9 @@ public class VentasController {
         PRECIO_ENTRADA = config.getPrecioEntrada();
     }
 
-    public static VentasController obtenerInstancia() {
+    public static VentaController obtenerInstancia() {
         if(instancia == null){
-            instancia = new VentasController();
+            instancia = new VentaController();
         }
         return instancia;
     }

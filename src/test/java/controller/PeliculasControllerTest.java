@@ -13,12 +13,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PeliculasControllerTest {
 
-    private PeliculasController peliculasController;
+    private PeliculaController peliculasController;
 
     @BeforeEach
     public void setUp() {
-        PeliculasController.eliminarInstancia();
-        peliculasController = PeliculasController.obtenerInstancia();
+        PeliculaController.eliminarInstancia();
+        peliculasController = PeliculaController.obtenerInstancia();
     }
 
     @Test

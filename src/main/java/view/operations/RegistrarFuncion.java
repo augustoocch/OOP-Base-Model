@@ -1,7 +1,7 @@
 package view.operations;
 
 import controller.FuncionController;
-import controller.PeliculasController;
+import controller.PeliculaController;
 import controller.SucursalController;
 import model.business.cine.Sala;
 import model.business.pelicula.Pelicula;
@@ -32,7 +32,7 @@ public class RegistrarFuncion extends JFrame {
     private UtilDateModel model;
     private JDatePanelImpl datePanel;
     private JDatePickerImpl datePicker;
-    private PeliculasController peliculasController = PeliculasController.obtenerInstancia();
+    private PeliculaController peliculasController = PeliculaController.obtenerInstancia();
     private FuncionController funcionController = FuncionController.obtenerInstancia();
     private SucursalController sucursalController = SucursalController.obtenerInstancia();
 

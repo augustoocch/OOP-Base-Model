@@ -1,6 +1,6 @@
 package view.operations;
 
-import controller.PeliculasController;
+import controller.PeliculaController;
 import model.business.pelicula.Pelicula;
 import model.constants.TipoGenero;
 import view.MenuPrincipal;
@@ -19,7 +19,7 @@ public class ConsultarPelicula extends JFrame {
     private JComboBox<TipoGenero> boxSeleccionGenero;
     private JComboBox<String> boxDePeliculasEncontradas;
 
-    private final PeliculasController peliculasController = PeliculasController.obtenerInstancia();
+    private final PeliculaController peliculasController = PeliculaController.obtenerInstancia();
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {

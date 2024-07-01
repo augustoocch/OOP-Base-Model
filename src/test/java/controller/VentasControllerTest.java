@@ -19,13 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class VentasControllerTest {
-    private VentasController ventasController;
+    private VentaController ventasController;
 
     @BeforeEach
     public void setUp() {
         FuncionController.eliminarInstancia();
-        VentasController.eliminarInstancia();
-        ventasController = VentasController.obtenerInstancia();
+        VentaController.eliminarInstancia();
+        ventasController = VentaController.obtenerInstancia();
     }
 
     @Test
